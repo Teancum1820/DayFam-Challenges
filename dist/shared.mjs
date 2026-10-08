@@ -8,7 +8,10 @@ export const COLORS = {
 };
 export const $ = id => document.getElementById(id);
 export const text = (id, value) => { if ($(id)) $(id).textContent = value; };
-export function icon(name, className = '') { return `<span class="icon ${className}" aria-hidden="true" style="--icon:url('${BASE}assets/icons/${name}.svg')"></span>`; }
+export function icon(name, className = '') {
+  const url = new URL(`${BASE}assets/icons/${name}.svg`, location.href).href;
+  return `<span class="icon ${className}" aria-hidden="true" style="--icon:url('${url}')"></span>`;
+}
 export function personStyle(name) { const [accent, tint, shadow] = COLORS[name]; return `--accent:${accent};--tint:${tint};--depth:${shadow}`; }
 export function avatar(member, className = '') {
   const span = document.createElement('span'); span.className = `avatar ${className}`; span.style.cssText = personStyle(member.name); span.textContent = member.name[0];
