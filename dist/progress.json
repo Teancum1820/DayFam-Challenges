@@ -6,17 +6,17 @@
     "totalPages": 531,
     "timeZone": "America/Denver"
   },
-  "updatedAt": "2026-10-08T16:39:38.707649Z",
+  "updatedAt": "2026-10-08T18:21:07.730866Z",
   "members": [
     {
       "name": "Caleb",
       "page": 30,
-      "avatar": null
+      "avatar": "assets/caleb.jpg"
     },
     {
       "name": "Katelyn",
-      "page": 0,
-      "avatar": null
+      "page": 7,
+      "avatar": "assets/katelyn.jpg"
     },
     {
       "name": "Elizabeth",

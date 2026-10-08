@@ -3,7 +3,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1] / "dist"
 MEMBERS = ["Caleb", "Katelyn", "Elizabeth", "Benjamin", "Aaron", "Lydia"]
-VERSION = "20261008-expanded"
+VERSION = "20261008-profiles"
 FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232c8d78'/%3E%3Cpath d='M8 11q6-3 12 1 6-4 12-1v19q-6-3-12 0-6-3-12 0z' fill='%23fff'/%3E%3C/svg%3E"
 
 def instructions(base):

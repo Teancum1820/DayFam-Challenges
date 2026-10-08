@@ -46,7 +46,7 @@ h1,h2,h3,h4,p,figure { margin:0; }
 .family-list { padding:0; margin:0; list-style:none; }
 .reader-row { padding:20px 28px; border-bottom:1px solid #f1ecf5; min-height:94px; animation:rise .35s ease both; animation-delay:calc(var(--index)*35ms); }
 .reader-row:last-child { border:0; }
-.reader-row.leader { background:#f6f0ff; box-shadow:inset 3px 0 0 var(--accent); }
+.reader-row.leader { background:color-mix(in srgb, var(--tint) 65%, white); box-shadow:inset 3px 0 0 var(--accent); }
 .rank { text-align:center; color:#a292ae; font-size:14px; }
 .rank.winner { color:#b08b27; }
 .rank.winner .icon { width:24px; height:24px; }
