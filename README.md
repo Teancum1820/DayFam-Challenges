@@ -63,6 +63,8 @@ The eight HTML pages are checked in. After editing their shared template, regene
 python scripts/generate-pages.py
 ```
 
+HTML asset links and module imports carry a release version to refresh cached code after design updates. When changing the interface again, bump that version in the page generator and module imports, then regenerate the HTML.
+
 ## Hosting
 
 GitHub Pages uses `.github/workflows/pages.yml` to publish `dist` on every push to `main`. In repository Settings → Pages, the publishing source is **GitHub Actions**.

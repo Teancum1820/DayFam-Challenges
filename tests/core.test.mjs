@@ -56,6 +56,6 @@ test('each family member has a separate static journey page', async () => {
   for (const member of data.members) {
     const html = await readFile(new URL(`../dist/journeys/${member.name.toLowerCase()}/index.html`, import.meta.url), 'utf8');
     assert.ok(html.includes(`data-member="${member.name}"`));
-    assert.ok(html.includes('src="../../journey.mjs"'));
+    assert.ok(html.includes('src="../../journey.mjs?v='));
   }
 });

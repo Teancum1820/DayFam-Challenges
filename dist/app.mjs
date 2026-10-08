@@ -1,5 +1,5 @@
-import { ranked } from './core.mjs';
-import { BASE, $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs';
+import { ranked } from './core.mjs?v=20261008';
+import { BASE, $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs?v=20261008';
 
 boot((data, guide) => {
   const plan = renderStats(data), members = ranked(data.members);

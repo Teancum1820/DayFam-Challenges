@@ -1,4 +1,4 @@
-import { pace, dateInZone, validateData, chapterProgress, validateChapters } from './core.mjs';
+import { pace, dateInZone, validateData, chapterProgress, validateChapters } from './core.mjs?v=20261008';
 
 export const BASE = document.body.dataset.base || './';
 export const COLORS = {

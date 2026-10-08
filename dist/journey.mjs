@@ -1,5 +1,5 @@
-import { chapterProgress, STANDARD_PAGES } from './core.mjs';
-import { $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs';
+import { chapterProgress, STANDARD_PAGES } from './core.mjs?v=20261008';
+import { $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs?v=20261008';
 
 const pattern = [0, 10, 15, 10, 0, -10, -15, -10];
 let selected, currentChapterId;
