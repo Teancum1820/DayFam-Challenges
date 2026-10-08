@@ -141,6 +141,86 @@
       "name": "ammon",
       "prompt": "Use case: stylized-concept. Single transparent landmark for a Book of Mormon journey map. Original Duolingo-inspired isometric 3D educational adventure game art, chunky rounded geometric forms, smooth matte toy materials, saturated inviting colors, softly shaded 3/4 orthographic view, warm light from upper left, clean legible silhouette at 120px. Entire object or full-body character visible, centered with transparent margins. No words, UI, watermark, border, landscape or floor. True transparent alpha. Subject: Ammon as a friendly ancient missionary, young adult man with dark hair, teal tunic and tan sash, carrying a simple wooden shepherd staff with a small cream lamb beside him, full body, no weapons or violence.",
       "transparent": true
+    },
+    {
+      "name": "world-bountiful",
+      "prompt": "Use case: stylized-concept. Asset type: portrait background for a vertical Book of Mormon adventure reading map. Original Duolingo-inspired isometric 3D mobile-game scenery, orthographic view tilted down, chunky rounded geometric buildings and trees, smooth matte toy materials, inviting saturated colors, soft upper-left sunlight. Terrain fills the whole 2:3 portrait frame, no sky or horizon, no photographic realism. Keep central 45% mostly empty gently colored ground or water for the reading path. Place detailed terrain and buildings along both outer sides. No text, people, chapter markers, circles, UI, roads, watermark, logos. Upper and lower edges have softly simplified terrain to allow scene blending. Subject: Bountiful coast where Nephi builds a ship. Golden sandy beach meets turquoise sea on right edge, lush palms and flowering trees on left edge, small ancient wooden boat-building shelter, stacked planks and a partly built wooden hull tucked at the side. Warm sand-to-mint palette, hopeful and sunny.",
+      "transparent": false
+    },
+    {
+      "name": "world-forest",
+      "prompt": "Use case: stylized-concept. Asset type: portrait background for a vertical Book of Mormon adventure reading map. Original Duolingo-inspired isometric 3D mobile-game scenery, orthographic view tilted down, chunky rounded geometric buildings and trees, smooth matte toy materials, inviting saturated colors, soft upper-left sunlight. Terrain fills the whole 2:3 portrait frame, no sky or horizon, no photographic realism. Keep central 45% mostly empty gently colored ground or water for the reading path. Place detailed terrain and buildings along both outer sides. No text, people, chapter markers, circles, UI, roads, watermark, logos. Upper and lower edges have softly simplified terrain to allow scene blending. Subject: A quiet forest clearing for Enos's prayer. Rounded deep emerald trees, broad fern leaves, mossy boulders, a tiny clear stream along the left edge, soft shafts of warm light, central clearing pale sage green. Peaceful and inviting.",
+      "transparent": false
+    },
+    {
+      "name": "world-waters",
+      "prompt": "Use case: stylized-concept. Asset type: portrait background for a vertical Book of Mormon adventure reading map. Original Duolingo-inspired isometric 3D mobile-game scenery, orthographic view tilted down, chunky rounded geometric buildings and trees, smooth matte toy materials, inviting saturated colors, soft upper-left sunlight. Terrain fills the whole 2:3 portrait frame, no sky or horizon, no photographic realism. Keep central 45% mostly empty gently colored ground or water for the reading path. Place detailed terrain and buildings along both outer sides. No text, people, chapter markers, circles, UI, roads, watermark, logos. Upper and lower edges have softly simplified terrain to allow scene blending. Subject: The Waters of Mormon. Bright clear turquoise pool bordered by rounded rocks, papyrus reeds, palms, lush green trees and soft purple flowers. Small sunny grassy banks and stepping stones at outer sides, central broad shallow pale aqua water. Calm and reverent.",
+      "transparent": false
+    },
+    {
+      "name": "world-zarahemla",
+      "prompt": "Use case: stylized-concept. Asset type: portrait background for a vertical Book of Mormon adventure reading map. Original Duolingo-inspired isometric 3D mobile-game scenery, orthographic view tilted down, chunky rounded geometric buildings and trees, smooth matte toy materials, inviting saturated colors, soft upper-left sunlight. Terrain fills the whole 2:3 portrait frame, no sky or horizon, no photographic realism. Keep central 45% mostly empty gently colored ground or water for the reading path. Place detailed terrain and buildings along both outer sides. No text, people, chapter markers, circles, UI, roads, watermark, logos. Upper and lower edges have softly simplified terrain to allow scene blending. Subject: A thriving ancient river city, imaginative Zarahemla. Small sandstone homes with terracotta roofs, colorful cloth market awnings, palms, gardens, grain baskets, blue river and stone bridge along outer edges. Wide pale peach sandy central clearing, cheerful warm coral and turquoise palette.",
+      "transparent": false
+    },
+    {
+      "name": "world-strongholds",
+      "prompt": "Use case: stylized-concept. Asset type: portrait background for a vertical Book of Mormon adventure reading map. Original Duolingo-inspired isometric 3D mobile-game scenery, orthographic view tilted down, chunky rounded geometric buildings and trees, smooth matte toy materials, inviting saturated colors, soft upper-left sunlight. Terrain fills the whole 2:3 portrait frame, no sky or horizon, no photographic realism. Keep central 45% mostly empty gently colored ground or water for the reading path. Place detailed terrain and buildings along both outer sides. No text, people, chapter markers, circles, UI, roads, watermark, logos. Upper and lower edges have softly simplified terrain to allow scene blending. Subject: Ancient Nephite fortified settlements. Rounded grassy earth embankments topped with timber palisades, chunky wooden watchtowers, simple stone houses and green hills, blue stream along one side. Broad pale olive central ground. Friendly adventure-game strongholds, no people or weapons, no violence.",
+      "transparent": false
+    },
+    {
+      "name": "world-mountain",
+      "prompt": "Use case: stylized-concept. Asset type: portrait background for a vertical Book of Mormon adventure reading map. Original Duolingo-inspired isometric 3D mobile-game scenery, orthographic view tilted down, chunky rounded geometric buildings and trees, smooth matte toy materials, inviting saturated colors, soft upper-left sunlight. Terrain fills the whole 2:3 portrait frame, no sky or horizon, no photographic realism. Keep central 45% mostly empty gently colored ground or water for the reading path. Place detailed terrain and buildings along both outer sides. No text, people, chapter markers, circles, UI, roads, watermark, logos. Upper and lower edges have softly simplified terrain to allow scene blending. Subject: The brother of Jared's mountain setting. Rounded blue-lavender rocky peaks and stepped cliffs at the sides, tiny alpine trees, patches of pale grass, cave and softly glowing pale stones on a side ledge. Broad pale periwinkle central ground, warm golden light at upper right. Entirely isometric game-board terrain.",
+      "transparent": false
+    },
+    {
+      "name": "iron-rod",
+      "prompt": "Use case: stylized-concept. Asset: one transparent landmark for a Book of Mormon reading journey. Original Duolingo-inspired isometric 3D educational game art, chunky rounded geometry, friendly storybook proportions, smooth matte toy materials, bright inviting colors, soft upper-left light, orthographic three-quarter view. Entire object or full-body group visible, centered with generous transparent margin, clear silhouette at 120px. No UI, words, labels, watermark, frame, background landscape or large platform. True transparent alpha. Subject: A short shiny dark-silver iron handrail following a gentle curve, three chunky posts beside a tiny ivory-stone walkway, ending at a small luminous white fruit and green leaves. Symbol of holding fast to the word of God. No people.",
+      "transparent": true
+    },
+    {
+      "name": "lehi-family",
+      "prompt": "Use case: stylized-concept. Asset: one transparent landmark for a Book of Mormon reading journey. Original Duolingo-inspired isometric 3D educational game art, chunky rounded geometry, friendly storybook proportions, smooth matte toy materials, bright inviting colors, soft upper-left light, orthographic three-quarter view. Entire object or full-body group visible, centered with generous transparent margin, clear silhouette at 120px. No UI, words, labels, watermark, frame, background landscape or large platform. True transparent alpha. Subject: Lehi and Sariah joyfully welcome their young adult son Nephi back to camp. A warm bearded older man in rust robe, an older woman in plum and cream robe, and a dark-haired young man in blue and cream holding a small bronze record. Three full-body friendly ancient figures close together.",
+      "transparent": true
+    },
+    {
+      "name": "jacob-scroll",
+      "prompt": "Use case: stylized-concept. Asset: one transparent landmark for a Book of Mormon reading journey. Original Duolingo-inspired isometric 3D educational game art, chunky rounded geometry, friendly storybook proportions, smooth matte toy materials, bright inviting colors, soft upper-left light, orthographic three-quarter view. Entire object or full-body group visible, centered with generous transparent margin, clear silhouette at 120px. No UI, words, labels, watermark, frame, background landscape or large platform. True transparent alpha. Subject: Jacob teaching: friendly ancient bearded man in sage green robe and cream sash, holding an open cream parchment scroll and gesturing gently upward with other hand. Full body, no readable writing.",
+      "transparent": true
+    },
+    {
+      "name": "abinadi",
+      "prompt": "Use case: stylized-concept. Asset: one transparent landmark for a Book of Mormon reading journey. Original Duolingo-inspired isometric 3D educational game art, chunky rounded geometry, friendly storybook proportions, smooth matte toy materials, bright inviting colors, soft upper-left light, orthographic three-quarter view. Entire object or full-body group visible, centered with generous transparent margin, clear silhouette at 120px. No UI, words, labels, watermark, frame, background landscape or large platform. True transparent alpha. Subject: Abinadi teaching fearlessly: dignified elderly man with white beard and shoulder-length white hair, simple cream robe with muted burgundy sash, standing upright with one open hand raised, small folded parchment in other. Calm faithful expression, no fire or violence.",
+      "transparent": true
+    },
+    {
+      "name": "alma-conversion",
+      "prompt": "Use case: stylized-concept. Asset: one transparent landmark for a Book of Mormon reading journey. Original Duolingo-inspired isometric 3D educational game art, chunky rounded geometry, friendly storybook proportions, smooth matte toy materials, bright inviting colors, soft upper-left light, orthographic three-quarter view. Entire object or full-body group visible, centered with generous transparent margin, clear silhouette at 120px. No UI, words, labels, watermark, frame, background landscape or large platform. True transparent alpha. Subject: The conversion of Alma the Younger: a young ancient man in teal and tan robes kneeling in astonishment, looking toward a gentle radiant angel in cream robes with golden light and one raised hand. Two small full-body figures grouped compactly, no wings, no text.",
+      "transparent": true
+    },
+    {
+      "name": "buried-weapons",
+      "prompt": "Use case: stylized-concept. Asset: one transparent landmark for a Book of Mormon reading journey. Original Duolingo-inspired isometric 3D educational game art, chunky rounded geometry, friendly storybook proportions, smooth matte toy materials, bright inviting colors, soft upper-left light, orthographic three-quarter view. Entire object or full-body group visible, centered with generous transparent margin, clear silhouette at 120px. No UI, words, labels, watermark, frame, background landscape or large platform. True transparent alpha. Subject: The Anti-Nephi-Lehies' covenant of peace: a small rounded earthen pit containing a few sheathed ancient swords and wooden shields, a wooden shovel beside it, bright green new leaves and a tiny white flower at the edge. No people, no violence, no blood, peaceful hopeful colors.",
+      "transparent": true
+    },
+    {
+      "name": "stripling-warriors",
+      "prompt": "Use case: stylized-concept. Asset: one transparent landmark for a Book of Mormon reading journey. Original Duolingo-inspired isometric 3D educational game art, chunky rounded geometry, friendly storybook proportions, smooth matte toy materials, bright inviting colors, soft upper-left light, orthographic three-quarter view. Entire object or full-body group visible, centered with generous transparent margin, clear silhouette at 120px. No UI, words, labels, watermark, frame, background landscape or large platform. True transparent alpha. Subject: Three courageous stripling warriors standing together, ancient young adult men with diverse warm brown complexions and dark hair, simple teal, terracotta and cream tunics, small round wooden shields with a simple sun motif, friendly determined expressions, no drawn weapons, no fighting. Compact full-body trio, hopeful.",
+      "transparent": true
+    },
+    {
+      "name": "prison-fire",
+      "prompt": "Use case: stylized-concept. Asset: one transparent landmark for a Book of Mormon reading journey. Original Duolingo-inspired isometric 3D educational game art, chunky rounded geometry, friendly storybook proportions, smooth matte toy materials, bright inviting colors, soft upper-left light, orthographic three-quarter view. Entire object or full-body group visible, centered with generous transparent margin, clear silhouette at 120px. No UI, words, labels, watermark, frame, background landscape or large platform. True transparent alpha. Subject: Nephi and Lehi protected in prison: two friendly ancient bearded men in blue and cream robes standing calmly inside a low circular ring of glowing golden orange flame, two small rounded stone blocks behind them. Flames do not touch or hurt them. Warm miraculous light, reverent, no injury.",
+      "transparent": true
+    },
+    {
+      "name": "christ-children",
+      "prompt": "Use case: stylized-concept. Asset: one transparent landmark for a Book of Mormon reading journey. Original Duolingo-inspired isometric 3D educational game art, chunky rounded geometry, friendly storybook proportions, smooth matte toy materials, bright inviting colors, soft upper-left light, orthographic three-quarter view. Entire object or full-body group visible, centered with generous transparent margin, clear silhouette at 120px. No UI, words, labels, watermark, frame, background landscape or large platform. True transparent alpha. Subject: Jesus Christ blessing the children: gentle olive-complexioned bearded Savior in cream robe and muted red sash kneels with a warm smile, one hand gently above the head of a small dark-haired child in teal tunic, another child in plum beside Him. Three compact full-body figures, reverent friendly rounded style.",
+      "transparent": true
+    },
+    {
+      "name": "mormon-records",
+      "prompt": "Use case: stylized-concept. Asset: one transparent landmark for a Book of Mormon reading journey. Original Duolingo-inspired isometric 3D educational game art, chunky rounded geometry, friendly storybook proportions, smooth matte toy materials, bright inviting colors, soft upper-left light, orthographic three-quarter view. Entire object or full-body group visible, centered with generous transparent margin, clear silhouette at 120px. No UI, words, labels, watermark, frame, background landscape or large platform. True transparent alpha. Subject: Mormon preserving the records: thoughtful mature ancient bearded man with dark graying hair wearing a terracotta cloak over cream robes, kneeling beside a small golden stack of metal plates, holding another metal leaf and a stylus. Full body, dignified record keeper, no weapons or violence.",
+      "transparent": true
     }
   ]
 }

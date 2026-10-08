@@ -3,14 +3,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1] / "dist"
 MEMBERS = ["Caleb", "Katelyn", "Elizabeth", "Benjamin", "Aaron", "Lydia"]
-VERSION = "20261008-story"
+VERSION = "20261008-expanded"
 FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232c8d78'/%3E%3Cpath d='M8 11q6-3 12 1 6-4 12-1v19q-6-3-12 0-6-3-12 0z' fill='%23fff'/%3E%3C/svg%3E"
 
 def instructions(base):
     return f'''<dialog id="instructions" class="instructions-dialog" aria-labelledby="instructions-title">
       <div class="dialog-head"><h2 id="instructions-title">Your two-color reading guide</h2><button id="close-instructions" class="close-button" aria-label="Close instructions"><span data-icon="x"></span></button></div>
       <p class="instructions-intro">As you read, mark up your Book of Mormon with two colors. Choose any two you like, and keep the same key throughout the book.</p>
-      <section class="marking-card deity-card"><span class="color-swatch" aria-hidden="true"></span><div><span class="color-key">COLOR 1 · GOLD</span><h3>Deity</h3><p>Mark references to God the Father, Jesus Christ, and the Holy Ghost, including Their names and titles.</p><div class="marking-examples"><span>God</span><span>Jesus Christ</span><span>Holy Ghost</span><span>Lord</span><span>Savior</span><span>Redeemer</span></div></div></section>
+      <section class="marking-card deity-card"><span class="color-swatch" aria-hidden="true"></span><div><span class="color-key">COLOR 1 · RED</span><h3>Deity</h3><p>Mark references to God the Father, Jesus Christ, and the Holy Ghost, including Their names and titles.</p><div class="marking-examples"><span>God</span><span>Jesus Christ</span><span>Holy Ghost</span><span>Lord</span><span>Savior</span><span>Redeemer</span></div></div></section>
       <section class="marking-card gospel-card"><span class="color-swatch" aria-hidden="true"></span><div><span class="color-key">COLOR 2 · BLUE</span><h3>The gospel of Jesus Christ</h3><p>Mark what God asks us to do to follow Him.</p><div class="marking-examples"><span>Faith</span><span>Repentance</span><span>Baptism</span><span>Receiving the Holy Ghost</span><span>Enduring to the end</span><span>Prayer</span><span>Church</span><span>Keeping commandments</span><span>Serving others</span></div></div></section>
       <div class="marking-example"><h3>When both appear together</h3><p>In a phrase like <strong>“have faith in Jesus Christ,”</strong> mark <mark class="gospel-mark">have faith</mark> in your gospel color and <mark class="deity-mark">Jesus Christ</mark> in your Deity color.</p></div>
       <p class="instructions-note">Read to the daily page goal, then use the leaderboard and your journey map to follow your progress.</p><button id="done-instructions" class="button primary full">Got it</button>

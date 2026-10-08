@@ -1,6 +1,6 @@
-import { ranked, chapterProgress } from './core.mjs?v=20261008-story';
-import { regionAt, storyAsset } from './story.mjs?v=20261008-story';
-import { BASE, $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs?v=20261008-story';
+import { ranked, chapterProgress } from './core.mjs?v=20261008-expanded';
+import { regionAt, storyAsset } from './story.mjs?v=20261008-expanded';
+import { BASE, $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs?v=20261008-expanded';
 
 boot((data, guide) => {
   const plan = renderStats(data), members = ranked(data.members);

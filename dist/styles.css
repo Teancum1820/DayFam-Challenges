@@ -116,25 +116,33 @@ select { width:100%; padding:13px 11px; border:1px solid #dfd6e7; border-radius:
 .current-dot { background:var(--accent); }
 .upcoming-dot { background:#c7bdcf; }
 .edition-note { color:#8d7d99; font-size:12px; line-height:1.7; margin-top:18px; }
-.journey-path { min-width:0; }
-.book-section { border-radius:23px; overflow:hidden; margin-bottom:30px; border:1px solid #d6d7cc; box-shadow:0 4px 0 #ddd8e1; scroll-margin-top:24px; }
+.journey-path { min-width:0; position:relative; isolation:isolate; }
+.book-section { position:relative; border-radius:23px; overflow:hidden; margin-bottom:30px; border:1px solid #d6d7cc; box-shadow:0 4px 0 #ddd8e1; scroll-margin-top:24px; }
+.book-scenery { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+.scenery-bases,.scenery-paints { position:absolute; inset:0; }
+.scenery-zone { position:absolute; left:0; right:0; background:linear-gradient(to bottom,var(--entry-bg),var(--world-bg) 120px,var(--world-bg) calc(100% - 120px),var(--exit-bg)); }
+.scenery-art { position:absolute; left:0; right:0; overflow:hidden; mask-image:linear-gradient(to bottom,transparent,#000 180px,#000 calc(100% - 180px),transparent); }
+.scenery-tile { position:absolute; left:0; right:0; background-image:var(--world-image); background-size:cover; background-position:center; mask-image:linear-gradient(to bottom,transparent,#000 var(--tile-blend),#000 calc(100% - var(--tile-blend)),transparent); }
+.journey-road { position:absolute; top:0; left:0; width:100%; z-index:2; pointer-events:none; overflow:visible; }
+.journey-road path { fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.journey-road .road-base { stroke:#fffffff0; stroke-width:16; }
+.journey-road .road-line { stroke:var(--road-color); stroke-opacity:.7; stroke-width:5; }
+.road-page-dot { stroke:white; stroke-width:1.5; }
+.book-banner { position:relative; }
+.book-banner>div,.book-banner-art,.book-end>span,.book-end>.icon { position:relative; z-index:3; }
 .book-banner { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:26px 28px; background:var(--book-color); color:white; border-bottom:5px solid var(--book-depth); }
 .book-banner .eyebrow { color:#ffffffbd; font-size:11px; }
 .book-banner h3 { font-size:30px; font-weight:600; margin:7px 0 8px; letter-spacing:-.5px; }
 .book-banner p { font-size:13px; color:#ffffffeb; line-height:1.5; }
 .book-banner-art { width:87px; height:87px; object-fit:cover; border-radius:18px; border:3px solid #fff7; box-shadow:0 5px 0 #0002; }
-.world-section { position:relative; background-color:var(--world-bg); background-image:var(--world-image); background-repeat:repeat-y; background-size:100% auto; background-position:center top; padding:27px 0 24px; }
-.world-caption { position:relative; z-index:3; width:max-content; max-width:80%; margin:0 auto 27px; padding:11px 21px; border-radius:14px; background:#ffffffe8; border:1px solid #fff; box-shadow:0 3px 0 #00000012; text-align:center; }
+.world-section { position:relative; padding:27px 0 24px; }
+.world-caption { position:relative; z-index:3; width:max-content; max-width:42%; margin:0 0 27px 24px; padding:11px 17px; border-radius:14px; background:#ffffffe8; border:1px solid #fff; box-shadow:0 3px 0 #00000012; text-align:center; }
+.world-caption.caption-right { margin-left:auto; margin-right:24px; }
 .world-caption h4 { font-size:16px; font-weight:550; color:var(--world-depth); }
 .world-caption span { display:block; font-size:12px; color:#786f71; margin-top:4px; }
 .chapter-list { margin:0; padding:0; list-style:none; }
 .chapter-step { --step-size:165px; height:var(--step-size); position:relative; --node-x:0%; }
 .chapter-step.story-step { --step-size:275px; }
-.path-link { position:absolute; width:100%; height:var(--step-size); left:0; top:61px; z-index:0; overflow:visible; }
-.path-link path { fill:none; stroke-linecap:round; }
-.path-link .road-base { stroke:#ffffffe0; stroke-width:17; }
-.path-link .road-line { stroke:var(--world-accent); stroke-opacity:.32; stroke-width:5; }
-.done .road-line { stroke:#67ac3e; stroke-opacity:.8; }
 .chapter-node { position:absolute; left:calc(50% + var(--node-x)); top:29px; transform:translateX(-50%); width:69px; height:64px; display:grid; place-items:center; border:3px solid white; border-radius:50%; color:var(--world-depth); background:#fffffff5; box-shadow:0 7px 0 color-mix(in srgb,var(--world-accent) 40%,#dce0d8); z-index:3; transition:filter .2s,margin .2s; }
 .chapter-node:hover { filter:brightness(1.05); margin-top:-3px; }
 .chapter-node .icon { width:28px; height:28px; }
@@ -145,8 +153,6 @@ select { width:100%; padding:13px 11px; border:1px solid #dfd6e7; border-radius:
 .chapter-step.label-left .chapter-label { left:auto; right:calc(50% - var(--node-x) + 49px); text-align:right; }
 .chapter-label strong { display:block; color:#504755; font-size:14px; font-weight:550; }
 .chapter-label small { display:block; color:#786879; font-size:12px; margin-top:4px; }
-.page-dot { position:absolute; left:calc(50% + var(--dot-x)); top:var(--dot-y); width:8px; height:8px; border-radius:50%; background:var(--world-accent); border:1px solid #fff; box-shadow:0 0 0 2px #ffffffa0; z-index:1; transform:translate(-50%,-50%); }
-.page-dot.read { background:#5fa53c; }
 .story-landmark { position:absolute; left:5%; top:105px; width:160px; text-align:center; z-index:2; }
 .chapter-step.label-left .story-landmark { left:auto; right:5%; }
 .landmark-art { display:block; width:100%; height:143px; object-fit:contain; filter:drop-shadow(0 7px 4px #4b3b2918); }
@@ -156,7 +162,7 @@ select { width:100%; padding:13px 11px; border:1px solid #dfd6e7; border-radius:
 .target-tag { position:absolute; top:110px; left:calc(50% + var(--node-x)); transform:translateX(-50%); padding:5px 9px; background:#fff8d6; border:1px solid #ead175; border-radius:7px; color:#8f6b1e; font-size:10px; white-space:nowrap; z-index:4; }
 .book-end { display:flex; align-items:center; justify-content:center; gap:9px; background:var(--book-color); color:white; padding:18px; font-size:13px; }
 .book-end .icon { width:17px; height:17px; }
-.journey-finish { padding:32px 20px; text-align:center; border:1px solid #ead997; border-radius:20px; background:#fff6d6; }
+.journey-finish { position:relative; z-index:3; padding:32px 20px; text-align:center; border:1px solid #ead997; border-radius:20px; background:#fff6d6; }
 .journey-finish .eyebrow { color:#9c7c30; }
 .journey-finish h2 { margin:10px 0; font-size:27px; font-weight:550; color:#7d6026; }
 .journey-finish p { color:#8b794e; font-size:15px; }
@@ -174,10 +180,11 @@ dialog p { font-size:15px; color:#7b6a87; line-height:1.75; margin:16px 0; }
 .instructions-dialog { width:min(670px,calc(100% - 28px)); }
 .instructions-intro { margin-bottom:23px; }
 .marking-card { display:flex; gap:16px; padding:22px; border:1px solid; border-radius:17px; margin:14px 0; }
-.deity-card { background:#fff8df; border-color:#f0dfa4; --mark-color:#e8bd3c; }
+.deity-card { background:#fff0f1; border-color:#efc3c8; --mark-color:#e65a67; }
+.deity-card p,.deity-card .marking-examples span { color:#93565e; }
 .gospel-card { background:#eaf4ff; border-color:#c8def8; --mark-color:#6aaff1; }
 .color-swatch { width:20px; min-width:20px; align-self:stretch; border-radius:10px; background:var(--mark-color); box-shadow:inset 0 -4px 0 #0001; }
-.color-key { display:block; font-size:11px; letter-spacing:1px; font-weight:550; color:#8c6b2c; margin-bottom:7px; }
+.color-key { display:block; font-size:11px; letter-spacing:1px; font-weight:550; color:#aa434f; margin-bottom:7px; }
 .gospel-card .color-key { color:#3b78b0; }
 .marking-card h3 { font-size:21px; font-weight:550; }
 .marking-card p { margin:9px 0 13px; font-size:15px; color:#74674f; }
@@ -190,7 +197,7 @@ dialog p { font-size:15px; color:#7b6a87; line-height:1.75; margin:16px 0; }
 .marking-example p { margin:9px 0; }
 mark { padding:2px 4px; border-radius:4px; color:inherit; }
 .gospel-mark { background:#b6ddff; }
-.deity-mark { background:#ffe48c; }
+.deity-mark { background:#ffc4cb; }
 .instructions-note { font-size:13px; }
 #chapter-story { display:flex; gap:18px; align-items:center; padding:16px; background:#f5f1fa; border-radius:15px; margin:16px 0; }
 .detail-art { width:105px; height:120px; object-fit:contain; flex-shrink:0; }
@@ -286,10 +293,13 @@ mark { padding:2px 4px; border-radius:4px; color:inherit; }
   .book-banner h3 { font-size:27px; }
   .book-banner p { font-size:11px; }
   .book-banner-art { width:68px; height:68px; border-radius:13px; }
-  .world-caption { padding:9px 15px; margin-bottom:24px; }
-  .world-caption h4 { font-size:14px; }
+  .world-caption { max-width:42%; padding:9px 11px; margin-left:9px; margin-bottom:24px; }
+  .world-caption.caption-right { margin-right:9px; }
+  .world-caption h4 { font-size:12px; }
   .world-caption span { font-size:11px; }
   .chapter-step { --step-size:155px; }
+  .journey-road .road-base { stroke-width:12; }
+  .journey-road .road-line { stroke-width:4; }
   .chapter-step.story-step { --step-size:260px; }
   .chapter-node { width:60px; height:57px; top:33px; }
   .chapter-node .icon { width:25px; height:25px; }

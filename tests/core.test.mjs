@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { access } from 'node:fs/promises';
 import { REGIONS, WORLDS, LANDMARKS, regionAt, storyAsset } from '../dist/story.mjs';
+import { chapterConnections } from '../dist/path.mjs';
 import { pace, dateInZone, dateNumber, ranked, validateData, validateChapters, chapterProgress } from '../dist/core.mjs';
 const plan = { startDate: '2026-10-06', endDate: '2026-12-25', totalPages: 531 };
 test('81 inclusive reading days, rounded-up daily targets, exact finish', () => {
@@ -91,6 +92,33 @@ test('all eight pages share the simplified header and two-color instructions', a
     const html = await readFile(new URL(`../dist/${route}index.html`, import.meta.url), 'utf8');
     assert.ok(html.includes('Book of Mormon<br class="title-break"> Christmas Challenge'));
     assert.ok(html.includes('id="instructions"') && html.includes('<h3>Deity</h3>') && html.includes('The gospel of Jesus Christ'));
+    assert.ok(html.includes('COLOR 1 · RED') && !html.includes('COLOR 1 · GOLD'));
     for (const removed of ['edit-progress','READ A LITTLE','The family reading race','Every page counts','DayFam Challenges home']) assert.ok(!html.includes(removed));
   }
+});
+
+test('one continuous path connects all chapters across scenery and book boundaries at either width', async () => {
+  const guide = JSON.parse(await readFile(new URL('../dist/chapters.json', import.meta.url)));
+  const chapters = guide.books.flatMap(book => book.chapters.map(chapter => ({...chapter, book:book.slug, id:`${book.slug}-${chapter.number}`})));
+  for (const width of [358, 912]) {
+    const points = chapters.map((chapter, i) => ({...chapter, x:width/2+(i%3-1)*width*.1, y:100+i*180, entryY:80+i*180, exitY:140+i*180}));
+    const connections = chapterConnections(points, width);
+    assert.equal(connections.length, 238);
+    assert.equal(connections.filter(segment => segment.bookBreak).length, 14);
+    connections.forEach((segment, i) => {
+      assert.equal(segment.from.id, points[i].id);
+      assert.equal(segment.to.id, points[i+1].id);
+      assert.ok(segment.d.startsWith(`M ${points[i].x} ${points[i].y} `));
+      assert.ok(segment.d.endsWith(`${points[i+1].x} ${points[i+1].y}`));
+      if (segment.bookBreak) assert.ok(segment.d.includes(`L ${width-10} ${points[i+1].entryY}`));
+      segment.pages.forEach(page => assert.ok(page > segment.from.startPage && page < segment.to.startPage));
+    });
+    for (const [from,to] of [['1-ne-17','1-ne-18'],['1-ne-18','1-ne-19'],['1-ne-22','2-ne-1']]) {
+      assert.ok(connections.some(segment => segment.from.id===from && segment.to.id===to));
+    }
+    const pageDots = connections.flatMap(segment => segment.pages);
+    assert.equal(new Set(pageDots).size, pageDots.length, 'Shared printed pages must not create duplicate dots');
+  }
+  assert.deepEqual(chapterConnections([], 358), []);
+  assert.deepEqual(chapterConnections([{x:100,y:100}], 358), []);
 });
