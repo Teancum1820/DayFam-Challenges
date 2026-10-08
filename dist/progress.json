@@ -1,0 +1,18 @@
+{
+  "challenge": {
+    "title": "Book of Mormon Christmas Challenge",
+    "startDate": "2026-10-06",
+    "endDate": "2026-12-25",
+    "totalPages": 531,
+    "timeZone": "America/Denver"
+  },
+  "updatedAt": null,
+  "members": [
+    { "name": "Caleb", "page": 0, "avatar": null },
+    { "name": "Caitlin", "page": 0, "avatar": null },
+    { "name": "Elizabeth", "page": 0, "avatar": null },
+    { "name": "Benjamin", "page": 0, "avatar": null },
+    { "name": "Aaron", "page": 0, "avatar": null },
+    { "name": "Lydia", "page": 0, "avatar": null }
+  ]
+}

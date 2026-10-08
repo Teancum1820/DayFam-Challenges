@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#392c45">
+  <meta name="description" content="Six readers. One meaningful adventure. Follow the Day family's Book of Mormon reading challenge, track progress, and find your daily reading pace.">
+  <title>DayFam Challenges · A little reading, together</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23392c45'/%3E%3Cpath d='M8 11q6-3 12 1 6-4 12-1v19q-6-3-12 0-6-3-12 0z' fill='%23f6ca75'/%3E%3Cpath d='M20 12v18' stroke='%23392c45' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#leaderboard">Skip to leaderboard</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="DayFam Challenges home"><span class="brand-icon" aria-hidden="true">✳</span><span>dayfam<span class="brand-small">CHALLENGES</span></span></a>
+    <nav aria-label="Main navigation"><a class="nav-active" href="#leaderboard">The leaderboard</a><a href="#calculator">Pace calculator</a></nav>
+    <span class="family-tag"><span class="status-dot"></span> A family thing.</span>
+  </header>
+  <main class="container">
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-copy">
+        <div class="eyebrow"><span class="edition">THE CHRISTMAS CHALLENGE</span><span id="challenge-status" class="live-label">Loading challenge…</span></div>
+        <h1 id="page-title">One book.<br>Six little <span class="serif">adventures.</span></h1>
+        <p>A little reading. A little friendly competition.<br>A whole lot of growing together.</p>
+        <div class="date-tag"><span data-icon="calendar"></span><span id="challenge-dates">October 6 — December 25, 2026</span><span class="date-divider">/</span><span>Book of Mormon</span></div>
+      </div>
+      <div class="intro-art" id="intro-art"><img src="assets/reading-book.webp" width="400" height="400" alt="A playful open book with a red ribbon and golden stars"><span class="art-caption">Page by page. Together.</span></div>
+    </section>
+
+    <div id="data-error" class="notice error-notice" role="alert" hidden></div>
+    <div id="preview-notice" class="notice" hidden><span id="preview-message"></span><button id="reset-preview" class="text-button">Return to shared progress</button></div>
+
+    <section class="stats" aria-label="Reading plan at a glance">
+      <article class="stat-card target-card"><span class="stat-icon" data-icon="target"></span><div><div class="stat-label">TODAY'S FINISH LINE</div><div class="stat-value">Page <strong id="today-target">—</strong><span id="today-book" class="stat-note"></span></div><p id="today-description">Your target by the end of today</p></div><span id="today-date" class="stat-date"></span></article>
+      <article class="stat-card"><span class="stat-icon lavender" data-icon="book"></span><div><div class="stat-label">SLOW & STEADY</div><div class="stat-value"><strong id="daily-pace">—</strong><span class="value-unit">pages / day</span></div><p id="pace-description">A few quiet minutes, every day</p></div></article>
+      <article class="stat-card"><span class="stat-icon peach" data-icon="flag"></span><div><div class="stat-label" id="countdown-label">UNTIL THE FINISH</div><div class="stat-value"><strong id="days-left">—</strong><span class="value-unit">days to go</span></div><p id="finish-description">A Christmas Day finish. You’ve got this.</p></div></article>
+    </section>
+
+    <section id="leaderboard" class="board panel" aria-labelledby="board-title" aria-busy="true">
+      <div class="board-heading"><div><div class="section-kicker">THE DAY FAMILY READING CLUB</div><h2 id="board-title">A little friendly competition <span aria-hidden="true">✦</span></h2><p>Different paces. Same beautiful destination.</p></div><button id="edit-progress" class="primary-button" disabled><span data-icon="plus"></span>Update progress</button></div>
+      <div class="board-toolbar"><div class="view-switch" role="group" aria-label="Reading track view"><button id="view-pages" aria-pressed="true">By page</button><button id="view-books" aria-pressed="false">By book</button></div><div class="legend"><span><i class="legend-dot"></i> Pages read</span><span><i class="legend-target"></i> Today's target</span></div><button id="demo-button" class="text-button">Try a demo <span aria-hidden="true">↗</span></button></div>
+      <div class="chart-header"><span>THE READERS <span id="reader-count">/ 6</span></span><div id="chart-axis" class="chart-axis"></div><span class="progress-heading">THE PROGRESS</span></div>
+      <div id="reader-rows" class="reader-rows"><p class="loading-message">Getting the family together…</p></div>
+      <div class="board-footer"><span><span class="tiny-book" data-icon="book"></span><span id="journey-caption">1 Nephi 1 → Moroni 10 · 531 pages of possibility</span></span><span id="updated-label">No progress recorded yet</span></div>
+    </section>
+
+    <section class="bottom-grid">
+      <div id="calculator" class="calculator panel" aria-labelledby="calculator-title">
+        <div class="section-kicker">MAKE ROOM FOR A FEW PAGES</div><h2 id="calculator-title">Find your reading rhythm.</h2><p>Pick your dates. We’ll do the math.</p>
+        <form id="pace-form"><div class="calculator-fields"><label>Start reading<input id="calc-start" type="date" required value="2026-10-06"></label><label>Finish by<input id="calc-end" type="date" required value="2026-12-25"></label><label>Total pages<input id="calc-pages" type="number" min="1" max="100000" step="1" required value="531"></label></div><div id="calc-error" role="alert" class="form-error" hidden></div><div class="calc-result" aria-live="polite"><div><span class="result-caption">YOUR DAILY DOSE</span><p><strong id="calc-rate">6.56</strong> pages a day</p></div><div class="calc-result-right"><span id="calc-days">81 reading days</span><small>Includes your start & finish dates</small></div></div><p id="calc-target" class="calc-target"></p><button type="submit" class="secondary-button">Calculate my pace <span aria-hidden="true">↗</span></button></form>
+      </div>
+      <aside class="together-card" aria-labelledby="together-title"><span class="section-kicker">THE BIG PICTURE</span><h2 id="together-title">Every page<br>is a little <span class="serif">win.</span></h2><p>Some days, seven pages.<br>Some days, just one.<br>Keep showing up for the story.</p><div class="family-progress"><div class="mini-avatars" aria-hidden="true"><span>C</span><span>C</span><span>E</span><span>B</span><span>A</span><span>L</span></div><span><strong id="family-pages">0</strong> pages read together</span></div><div class="together-bottom"><span>6 readers. 1 shared adventure.</span><span aria-hidden="true">♡</span></div></aside>
+    </section>
+    <footer class="site-footer"><span class="footer-brand">✳ dayfam</span><span>Made for our family. One page at a time.</span><a href="https://www.churchofjesuschrist.org/study/scriptures/bofm?lang=eng" target="_blank" rel="noopener noreferrer">Open the Book of Mormon <span aria-hidden="true">↗</span></a></footer>
+  </main>
+
+  <dialog id="editor" aria-labelledby="editor-title"><div class="dialog-heading"><div><span class="section-kicker">A LITTLE CHECK-IN</span><h2 id="editor-title">Where is everyone?</h2></div><button id="close-editor" class="icon-button" aria-label="Close progress editor">×</button></div><p>Enter the last page each person has finished reading. Page 0 means they haven’t started yet.</p><form id="progress-form"><div id="editor-fields" class="editor-fields"></div><div id="editor-error" class="form-error" role="alert" hidden></div><button type="submit" class="primary-button full-width">Preview these updates <span aria-hidden="true">↗</span></button></form><div id="publish-help" class="publish-help" hidden><h3>Looking good? Share it with the family.</h3><p>This is a static site. Previewing changes only this tab. To update everyone’s leaderboard:</p><ol><li><button id="copy-json" class="text-button">Copy the progress data</button> or <button id="download-json" class="text-button">download progress.json</button>.</li><li><a href="https://github.com/Teancum1820/DayFam-Challenges/edit/main/dist/progress.json" target="_blank" rel="noopener noreferrer">Open the shared file on GitHub ↗</a>, replace its contents, and commit the change. You’ll need repository write access.</li><li>GitHub Pages will refresh after deployment, usually within a minute or two.</li></ol><p id="copy-status" role="status"></p></div></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <noscript><div class="notice">Please enable JavaScript to see the family’s progress and use the reading calculator.</div></noscript>
+</body>
+</html>
