@@ -6,13 +6,37 @@
     "totalPages": 531,
     "timeZone": "America/Denver"
   },
-  "updatedAt": null,
+  "updatedAt": "2026-10-08T16:39:38.707649Z",
   "members": [
-    { "name": "Caleb", "page": 0, "avatar": null },
-    { "name": "Caitlin", "page": 0, "avatar": null },
-    { "name": "Elizabeth", "page": 0, "avatar": null },
-    { "name": "Benjamin", "page": 0, "avatar": null },
-    { "name": "Aaron", "page": 0, "avatar": null },
-    { "name": "Lydia", "page": 0, "avatar": null }
+    {
+      "name": "Caleb",
+      "page": 30,
+      "avatar": null
+    },
+    {
+      "name": "Katelyn",
+      "page": 0,
+      "avatar": null
+    },
+    {
+      "name": "Elizabeth",
+      "page": 0,
+      "avatar": null
+    },
+    {
+      "name": "Benjamin",
+      "page": 0,
+      "avatar": null
+    },
+    {
+      "name": "Aaron",
+      "page": 0,
+      "avatar": null
+    },
+    {
+      "name": "Lydia",
+      "page": 0,
+      "avatar": null
+    }
   ]
 }

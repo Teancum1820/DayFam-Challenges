@@ -1,11 +1,7 @@
 export const STANDARD_PAGES = 531;
-export const BOOKS = [
-  ['1 Nephi', '1 Ne.', 1], ['2 Nephi', '2 Ne.', 53], ['Jacob', 'Jac.', 117],
-  ['Enos', 'Enos', 136], ['Jarom', 'Jar.', 138], ['Omni', 'Omni', 140],
-  ['Words of Mormon', 'W of M', 143], ['Mosiah', 'Mos.', 145], ['Alma', 'Alma', 207],
-  ['Helaman', 'Hel.', 368], ['3 Nephi', '3 Ne.', 406], ['4 Nephi', '4 Ne.', 465],
-  ['Mormon', 'Morm.', 469], ['Ether', 'Eth.', 487], ['Moroni', 'Moro.', 518]
-].map(([name, short, start], i, rows) => ({ name, short, start, end: (rows[i + 1]?.[2] ?? 532) - 1 }));
+const BOOK_NAMES = ['1 Nephi', '2 Nephi', 'Jacob', 'Enos', 'Jarom', 'Omni',
+  'Words of Mormon', 'Mosiah', 'Alma', 'Helaman', '3 Nephi', '4 Nephi',
+  'Mormon', 'Ether', 'Moroni'];
 
 export function dateNumber(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new Error('Choose valid dates.');
@@ -39,7 +35,7 @@ export function validateData(data) {
   if (!data?.challenge || !Array.isArray(data.members) || data.members.length !== 6) throw new Error('The shared progress file needs the challenge and all six readers.');
   pace(data.challenge, data.challenge.startDate);
   dateInZone(data.challenge.timeZone);
-  const expected = ['Caleb', 'Caitlin', 'Elizabeth', 'Benjamin', 'Aaron', 'Lydia'];
+  const expected = ['Caleb', 'Katelyn', 'Elizabeth', 'Benjamin', 'Aaron', 'Lydia'];
   if (new Set(data.members.map(m => m.name)).size !== 6) throw new Error('Each reader must appear once.');
   for (const member of data.members) {
     if (!expected.includes(member.name) || !Number.isInteger(member.page) || member.page < 0 || member.page > data.challenge.totalPages) throw new Error('Each reader needs a valid completed page number.');
@@ -49,22 +45,27 @@ export function validateData(data) {
   return data;
 }
 
-export function bookAt(page) {
-  if (page <= 0) return 'Ready to begin';
-  if (page >= 531) return 'Moroni 10 · Finished!';
-  return BOOKS.find(b => page >= b.start && page <= b.end)?.name ?? 'Reading';
-}
-
-export function position(page, totalPages, view) {
-  if (view === 'pages' || totalPages !== STANDARD_PAGES) return page / totalPages * 100;
-  if (page <= 0) return 0;
-  if (page >= STANDARD_PAGES) return 100;
-  const i = BOOKS.findIndex(b => page <= b.end);
-  const b = BOOKS[i];
-  return (i + (page - b.start + 1) / (b.end - b.start + 1)) / BOOKS.length * 100;
-}
-
 export function ranked(members) {
   const sorted = [...members].sort((a, b) => b.page - a.page);
   return sorted.map((m, i) => ({ ...m, rank: m.page === 0 ? null : sorted.findIndex(other => other.page === m.page) + 1 }));
+}
+
+export function validateChapters(data) {
+  const expected = [22, 33, 7, 1, 1, 1, 1, 29, 63, 16, 30, 1, 9, 15, 10];
+  if (data?.books?.length !== 15) throw new Error('The reading map needs all 15 books.');
+  let previousStart = 0;
+  data.books.forEach((book, i) => {
+    if (book.name !== BOOK_NAMES[i] || book.chapters?.length !== expected[i] || !/^[a-z0-9-]+$/.test(book.slug)) throw new Error('The chapter map is incomplete.');
+    book.chapters.forEach((chapter, j) => {
+      if (chapter.number !== j + 1 || !Number.isInteger(chapter.startPage) || !Number.isInteger(chapter.endPage) || chapter.startPage < previousStart || chapter.startPage < 1 || chapter.endPage < chapter.startPage || chapter.endPage > STANDARD_PAGES) throw new Error('The chapter page references are invalid.');
+      previousStart = chapter.startPage;
+    });
+  });
+  if (data.books[0].chapters[0].startPage !== 1 || data.books.at(-1).chapters.at(-1).endPage !== STANDARD_PAGES) throw new Error('The map must run from page 1 to page 531.');
+  return data;
+}
+
+export function chapterProgress(books, page) {
+  const chapters = books.flatMap((book, bookIndex) => book.chapters.map(chapter => ({ ...chapter, book: book.name, slug: book.slug, bookIndex, id: `${book.slug}-${chapter.number}` })));
+  return { chapters, completed: chapters.filter(chapter => page >= chapter.endPage).length, current: chapters.find(chapter => chapter.endPage > page) ?? null };
 }

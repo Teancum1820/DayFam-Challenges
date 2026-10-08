@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { pace, dateInZone, dateNumber, position, ranked, validateData, BOOKS } from '../dist/core.mjs';
+import { pace, dateInZone, dateNumber, ranked, validateData, validateChapters, chapterProgress } from '../dist/core.mjs';
 const plan = { startDate: '2026-10-06', endDate: '2026-12-25', totalPages: 531 };
 test('81 inclusive reading days, rounded-up daily targets, exact finish', () => {
   const day3 = pace(plan, '2026-10-08');
@@ -32,9 +32,30 @@ test('shared data is valid and rejects unsafe data', async () => {
   const badPhoto = structuredClone(data); badPhoto.members[0].avatar = 'javascript:alert(1)'; assert.throws(() => validateData(badPhoto));
   const duplicates = structuredClone(data); duplicates.members[1].name = 'Caleb'; assert.throws(() => validateData(duplicates));
 });
-test('book boundaries and ties preserve actual progress', () => {
-  assert.equal(BOOKS.length, 15); assert.equal(BOOKS.at(-1).end, 531);
-  assert.equal(position(531, 531, 'books'), 100); assert.equal(position(0, 531, 'books'), 0);
-  for (let page = 1; page <= 531; page++) assert.ok(position(page, 531, 'books') >= position(page - 1, 531, 'books'));
+test('ties preserve actual progress and the farthest reader ranks first', () => {
   assert.deepEqual(ranked([{ name:'A',page:20 },{ name:'B',page:20 },{ name:'C',page:5 },{ name:'D',page:0 }]).map(m => m.rank), [1,1,3,null]);
+  assert.deepEqual(ranked([{name:'A',page:3},{name:'B',page:120},{name:'C',page:30}]).map(m => m.name), ['B','C','A']);
+});
+test('the researched map covers 15 books and all 239 chapters, including shared pages', async () => {
+  const guide = validateChapters(JSON.parse(await readFile(new URL('../dist/chapters.json', import.meta.url))));
+  const progress = chapterProgress(guide.books, 30);
+  assert.equal(progress.chapters.length, 239); assert.equal(progress.completed, 14);
+  assert.equal(progress.current.id, '1-ne-15');
+  assert.deepEqual(guide.books[0].chapters[0], { number:1, startPage:1, endPage:3 });
+  assert.equal(guide.books[0].endPage, 53); assert.equal(guide.books[1].startPage, 53);
+  assert.equal(chapterProgress(guide.books, 0).completed, 0);
+  assert.equal(chapterProgress(guide.books, 0).current.id, '1-ne-1');
+  assert.equal(chapterProgress(guide.books, 531).completed, 239);
+  assert.equal(chapterProgress(guide.books, 531).current, null);
+  assert.equal(chapterProgress(guide.books, 519).current.id, 'moro-6');
+  const broken = structuredClone(guide); broken.books[8].chapters.pop(); assert.throws(() => validateChapters(broken));
+  const badPage = structuredClone(guide); badPage.books[0].chapters[0].endPage = 0; assert.throws(() => validateChapters(badPage));
+});
+test('each family member has a separate static journey page', async () => {
+  const data = JSON.parse(await readFile(new URL('../dist/progress.json', import.meta.url)));
+  for (const member of data.members) {
+    const html = await readFile(new URL(`../dist/journeys/${member.name.toLowerCase()}/index.html`, import.meta.url), 'utf8');
+    assert.ok(html.includes(`data-member="${member.name}"`));
+    assert.ok(html.includes('src="../../journey.mjs"'));
+  }
 });
