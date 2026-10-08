@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { access } from 'node:fs/promises';
+import { REGIONS, WORLDS, LANDMARKS, regionAt, storyAsset } from '../dist/story.mjs';
 import { pace, dateInZone, dateNumber, ranked, validateData, validateChapters, chapterProgress } from '../dist/core.mjs';
 const plan = { startDate: '2026-10-06', endDate: '2026-12-25', totalPages: 531 };
 test('81 inclusive reading days, rounded-up daily targets, exact finish', () => {
@@ -57,5 +59,38 @@ test('each family member has a separate static journey page', async () => {
     const html = await readFile(new URL(`../dist/journeys/${member.name.toLowerCase()}/index.html`, import.meta.url), 'utf8');
     assert.ok(html.includes(`data-member="${member.name}"`));
     assert.ok(html.includes('src="../../journey.mjs?v='));
+  }
+});
+
+test('every chapter has exactly one illustrated setting and every landmark asset exists', async () => {
+  const guide = JSON.parse(await readFile(new URL('../dist/chapters.json', import.meta.url)));
+  const ids = new Set();
+  for (const book of guide.books) {
+    for (const chapter of book.chapters) {
+      ids.add(`${book.slug}-${chapter.number}`);
+      assert.equal(REGIONS[book.slug].filter(([a,b]) => chapter.number >= a && chapter.number <= b).length, 1);
+      assert.ok(regionAt(book.slug, chapter.number));
+    }
+  }
+  for (const [id, landmark] of Object.entries(LANDMARKS)) {
+    assert.ok(ids.has(id), `Unknown landmark chapter ${id}`);
+    await access(new URL('../dist/' + storyAsset(landmark.asset), import.meta.url));
+  }
+  for (const world of Object.values(WORLDS)) await access(new URL('../dist/' + storyAsset(world.image), import.meta.url));
+  assert.equal(LANDMARKS['1-ne-1'].asset, 'book-of-mormon');
+  assert.equal(LANDMARKS['1-ne-4'].asset, 'brass-plates');
+  assert.equal(LANDMARKS['1-ne-8'].asset, 'tree-of-life');
+  assert.equal(LANDMARKS['moro-10'].asset, 'gold-plates');
+  assert.equal(regionAt('1-ne', 18).world, 'ocean');
+  assert.equal(regionAt('3-ne', 8).world, 'destruction');
+  assert.equal(regionAt('3-ne', 11).world, 'temple');
+});
+
+test('all eight pages share the simplified header and two-color instructions', async () => {
+  for (const route of ['', 'maps/', ...['caleb','katelyn','elizabeth','benjamin','aaron','lydia'].map(n => 'journeys/' + n + '/')]) {
+    const html = await readFile(new URL(`../dist/${route}index.html`, import.meta.url), 'utf8');
+    assert.ok(html.includes('Book of Mormon<br class="title-break"> Christmas Challenge'));
+    assert.ok(html.includes('id="instructions"') && html.includes('<h3>Deity</h3>') && html.includes('The gospel of Jesus Christ'));
+    for (const removed of ['edit-progress','READ A LITTLE','The family reading race','Every page counts','DayFam Challenges home']) assert.ok(!html.includes(removed));
   }
 });
