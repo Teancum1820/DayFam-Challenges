@@ -6,3 +6,6 @@ node_modules/
 !.env.example
 .test-output/
 research/*.pdf
+.wrangler/
+.dev.vars
+.dev.vars.*

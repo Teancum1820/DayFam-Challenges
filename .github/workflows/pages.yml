@@ -20,8 +20,15 @@ jobs:
       artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
       - name: Verify reading math and shared progress
-        run: node --test tests/core.test.mjs
+        run: npm test
+      - name: Check the shared progress API
+        run: npm run check:api
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

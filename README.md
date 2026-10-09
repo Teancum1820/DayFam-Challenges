@@ -1,6 +1,6 @@
 # DayFam Challenges
 
-A static Book of Mormon reading challenge for Caleb, Katelyn, Elizabeth, Benjamin, Aaron, Lydia, and Mom.
+A Book of Mormon reading challenge for Caleb, Katelyn, Elizabeth, Benjamin, Aaron, Lydia, and Mom. GitHub Pages serves the interface; a Cloudflare Worker and D1 database store shared progress.
 
 **Live site:** https://Teancum1820.github.io/DayFam-Challenges/
 
@@ -21,19 +21,21 @@ Progress records the **last page fully read**. A chapter is complete once its fi
 
 ## Update the family’s progress
 
-1. Edit [dist/progress.json](dist/progress.json), changing each member’s `page` to their last fully read page.
-2. Set `updatedAt` to the update time in ISO format and commit to `main`. You can also ask Codex to make the update and push it.
-3. GitHub Actions checks the data and reading calculations, then publishes the update. The shared site refreshes its data every five minutes and when a tab becomes visible; a page refresh also loads the latest deployment.
+1. Open the website and click **Update progress**, or click a page number on the leaderboard.
+2. Choose a reader and enter their **last page fully read**, from 0 to 531.
+3. Click **Save progress**. The leaderboard and journey update immediately for that visitor. Other open pages check for updates every 15 seconds and when their tab becomes visible; a page refresh also loads the latest shared progress.
 
-There is no progress-editing button on the public site. No passwords, GitHub tokens, or private write credentials are stored in it.
+Editing is public and requires no sign-in. Anyone can update any reader, as requested. Each save changes only that reader. A revision check catches simultaneous edits to the same reader and asks the visitor to review the latest value before saving again. Invalid page numbers are rejected by both the form and the API. If a save cannot be confirmed, the draft stays in the form with a retry message.
+
+**Live page numbers now come from D1, not the checked-in JSON.** [dist/progress.json](dist/progress.json) is the initial seed, reader metadata, and an offline fallback snapshot. Editing its page numbers or redeploying the frontend does not overwrite live progress. If the API is unavailable, the site shows this snapshot with a notice and disables editing until the connection recovers. No passwords, GitHub tokens, or database credentials are stored in the frontend.
 
 ## Add family photos
 
-Save square photos in `dist/assets/` and set each member’s `avatar`, for example `"avatar": "assets/caleb.webp"`. Initial avatars remain the fallback if an image cannot load. This is a public repository and public website, so added photos are public too.
+Save square photos in `dist/assets/` and set each member’s `avatar` in `dist/progress.json`, for example `"avatar": "assets/caleb.webp"`. Redeploy the API to update its reader metadata, then publish the frontend assets. Initial avatars remain the fallback if an image cannot load. This is a public repository and public website, so added photos are public too.
 
 ## Change the dates or edition
 
-Edit `challenge.startDate`, `challenge.endDate`, `challenge.totalPages`, and optionally `challenge.timeZone` in `dist/progress.json`. Changing `totalPages` updates the leaderboard and pace; chapter maps require the standard 531-page edition.
+Edit `challenge.startDate`, `challenge.endDate`, and optionally `challenge.timeZone` in `dist/progress.json`, then redeploy the API. The editor, database page constraint, and chapter maps currently use the standard 531-page edition; changing editions requires updating these together.
 
 ## Chapter references
 
@@ -43,7 +45,7 @@ The reproducible extraction script is `research/extract-chapters.py`. Download t
 
 ## Run locally
 
-No install or build step is required. Serve the `dist` directory with any static HTTP server, for example:
+The frontend needs no build step. Serve `dist` with any static HTTP server, for example:
 
 ```powershell
 python -m http.server 4173 --directory dist
@@ -51,11 +53,15 @@ python -m http.server 4173 --directory dist
 
 Open http://localhost:4173. Use an HTTP server rather than opening the HTML file directly, because browsers restrict loading JSON through `file:` URLs.
 
-Run checks with Node.js 20 or newer:
+Run checks and local backend development with Node.js 24 or newer:
 
 ```powershell
-node --test tests/core.test.mjs
+npm ci
+npm test
+npm run check:api
 ```
+
+To develop against a local database, run `npx wrangler d1 migrations apply dayfam-challenges-progress --local` and `npm run dev:api`. Temporarily point `PROGRESS_API` in `dist/config.mjs` at `http://127.0.0.1:8787/progress`; restore the deployed HTTPS endpoint before publishing. Local database changes do not affect the family’s live progress.
 
 The nine HTML pages are checked in. After editing their shared template, regenerate them with:
 
@@ -69,7 +75,16 @@ HTML asset links and module imports carry a release version to refresh cached co
 
 GitHub Pages uses `.github/workflows/pages.yml` to publish `dist` on every push to `main`. In repository Settings → Pages, the publishing source is **GitHub Actions**.
 
-For a future Cloudflare Pages migration: connect this repository, select no framework, leave the build command empty, and set the output directory to `dist`. All URLs are relative, so the same files work on either host. There is no backend, database, package installation, or framework dependency.
+The API is configured in [wrangler.jsonc](wrangler.jsonc), implemented in [api/index.ts](api/index.ts), and seeded once by [api/migrations/0001_readers.sql](api/migrations/0001_readers.sql). With Wrangler authenticated to the configured Cloudflare account, deploy with:
+
+```powershell
+npx wrangler d1 migrations apply dayfam-challenges-progress --remote
+npm run deploy:api
+```
+
+The initial migration uses `INSERT OR IGNORE`; rerunning migrations does not reset existing readers. API redeploys preserve D1 data. The browser endpoint is public configuration in `dist/config.mjs`. GitHub Actions tests the reading calculations, API validation, actual SQLite persistence, and simultaneous writes before publishing the frontend. Backend deployment is separate and uses the locally authenticated Cloudflare account.
+
+For a future Cloudflare frontend migration, deploy `dist` and add the new website origin to `ALLOWED_ORIGINS` in the Worker configuration. The frontend continues to use the same shared API. The interface has no framework dependency.
 
 ## Design assets
 

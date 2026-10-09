@@ -1,0 +1,17 @@
+{
+  "name": "dayfam-challenges",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "dev:api": "wrangler dev",
+    "deploy:api": "wrangler deploy",
+    "check:api": "wrangler types && tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261009.1",
+    "@types/node": "^24.19.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.149.0"
+  }
+}

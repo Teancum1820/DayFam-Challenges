@@ -1,4 +1,5 @@
-import { pace, dateInZone, validateData, chapterProgress, validateChapters } from './core.mjs?v=20261008-readers';
+import { pace, dateInZone, validateData, chapterProgress, validateChapters } from './core.mjs?v=20261009-editing';
+import { PROGRESS_API } from './config.mjs?v=20261009-editing';
 
 export const BASE = document.body.dataset.base || './';
 export const COLORS = {
@@ -33,31 +34,110 @@ export function renderStats(data) {
   text('challenge-dates', `${shortDate(data.challenge.startDate)} – ${shortDate(data.challenge.endDate)}, ${data.challenge.endDate.slice(0, 4)}`);
   return plan;
 }
-let source, renderCallback, lastDay;
+let source, renderCallback, lastDay, sharedAvailable = false, saving = false, editRevision, noticeTimer;
+async function requestProgress(update) {
+  const response = await fetch(PROGRESS_API, {
+    method: update ? 'PATCH' : 'GET', cache: 'no-store', signal: AbortSignal.timeout(12000),
+    ...(update ? { headers: {'Content-Type':'application/json'}, body:JSON.stringify(update) } : {})
+  }).catch(() => { throw new Error('Check your connection and try saving again.'); });
+  const body = await response.json();
+  if (!response.ok) {
+    const error = new Error(body.error || 'The shared progress could not be reached.');
+    if (response.status === 409 && body.data) error.latest = validateData(body.data);
+    throw error;
+  }
+  return validateData(body);
+}
+function setEditing(available) {
+  sharedAvailable = available;
+  document.querySelectorAll('[data-edit-member], #open-progress').forEach(button => { button.disabled = !available; });
+}
+function applyProgress(data) {
+  source.data = data; renderCallback(data, source.guide); setEditing(true);
+  $('error-banner').hidden = true;
+}
 export async function boot(render) {
   renderCallback = render;
-  setupInstructions();
+  setupInstructions(); setupProgressEditor();
   document.querySelectorAll('[data-icon]').forEach(el => { el.innerHTML = icon(el.dataset.icon); });
   try {
-    const [progress, chapters] = await Promise.all([fetch(BASE + 'progress.json', { cache: 'no-store' }), fetch(BASE + 'chapters.json')]);
-    if (!progress.ok || !chapters.ok) throw new Error('Reading data is unavailable.');
-    source = { data: validateData(await progress.json()), guide: validateChapters(await chapters.json()) };
+    const [data, chapters] = await Promise.all([
+      requestProgress().then(data => { sharedAvailable = true; return data; }).catch(async () => {
+        const fallback = await fetch(BASE + 'progress.json', {cache:'no-store'});
+        if (!fallback.ok) throw new Error('Reading data is unavailable.');
+        return validateData(await fallback.json());
+      }), fetch(BASE + 'chapters.json')
+    ]);
+    if (!chapters.ok) throw new Error('Reading data is unavailable.');
+    source = { data, guide: validateChapters(await chapters.json()) };
     lastDay = dateInZone(source.data.challenge.timeZone); render(source.data, source.guide); $('content')?.setAttribute('aria-busy', 'false');
-    setInterval(refresh, 300000);
-    setInterval(() => { if (source && dateInZone(source.data.challenge.timeZone) !== lastDay) { lastDay = dateInZone(source.data.challenge.timeZone); renderCallback(source.data, source.guide); } }, 60000);
+    setEditing(sharedAvailable);
+    if (!sharedAvailable) showError('Showing last published progress. Shared editing is temporarily unavailable.');
+    setInterval(refresh, 15000);
+    setInterval(() => { if (source && dateInZone(source.data.challenge.timeZone) !== lastDay) { lastDay = dateInZone(source.data.challenge.timeZone); renderCallback(source.data, source.guide); setEditing(sharedAvailable); } }, 60000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
   } catch (error) { showError('The reading data couldn’t load. Refresh to try again.'); $('content')?.setAttribute('aria-busy', 'false'); console.error(error.message); }
 }
 async function refresh() {
-  if (document.hidden) return;
+  if (document.hidden || !source || $('progress-editor').open || saving) return;
   try {
-    const response = await fetch(BASE + 'progress.json', { cache: 'no-store' }); if (!response.ok) throw new Error('Refresh failed');
-    const data = validateData(await response.json());
-    if (JSON.stringify(data) !== JSON.stringify(source.data)) { source.data = data; renderCallback(source.data, source.guide); }
+    const data = await requestProgress();
+    if (JSON.stringify(data) !== JSON.stringify(source.data)) applyProgress(data);
+    setEditing(true);
     $('error-banner').hidden = true;
-  } catch { showError('Showing the last loaded progress. We’ll try to refresh again shortly.'); }
+  } catch { setEditing(false); showError('Showing the last loaded progress. Shared editing will return when the connection recovers.'); }
 }
 function showError(message) { text('error-banner', message); $('error-banner').hidden = false; }
+
+function setupProgressEditor() {
+  const dialog = $('progress-editor'), form = $('progress-form'), reader = $('progress-reader'), page = $('progress-page');
+  const status = $('progress-status'), save = $('save-progress');
+  function chooseReader() {
+    const member = source.data.members.find(member => member.name === reader.value);
+    page.value = member.page; page.max = source.data.challenge.totalPages; editRevision = member.revision;
+    status.textContent = ''; status.className = 'progress-status';
+  }
+  function openEditor(name) {
+    if (!source || !sharedAvailable) return;
+    reader.replaceChildren(...source.data.members.map(member => {
+      const option = document.createElement('option'); option.value = member.name; option.textContent = member.name; return option;
+    }));
+    reader.value = name || document.body.dataset.member || source.data.members[0].name;
+    chooseReader(); dialog.showModal(); page.focus(); page.select();
+  }
+  $('open-progress').addEventListener('click', () => openEditor());
+  document.addEventListener('click', event => {
+    const button = event.target.closest('[data-edit-member]');
+    if (button && !button.disabled) openEditor(button.dataset.editMember);
+  });
+  reader.addEventListener('change', chooseReader);
+  for (const id of ['close-progress','cancel-progress']) $(id).addEventListener('click', () => { if (!saving) dialog.close(); });
+  dialog.addEventListener('cancel', event => { if (saving) event.preventDefault(); });
+  form.addEventListener('submit', async event => {
+    event.preventDefault(); if (saving || !form.reportValidity()) return;
+    saving = true; save.textContent = 'Saving…'; status.textContent = ''; status.className = 'progress-status';
+    $('close-progress').disabled = true;
+    const name = reader.value;
+    for (const control of form.elements) control.disabled = true;
+    try {
+      const data = await requestProgress({ name, page:Number(page.value), revision:editRevision });
+      applyProgress(data); dialog.close();
+      text('save-notice', name + '’s progress saved for everyone.'); $('save-notice').hidden = false;
+      clearTimeout(noticeTimer); noticeTimer = setTimeout(() => { $('save-notice').hidden = true; }, 6000);
+    } catch (error) {
+      status.classList.add('error');
+      if (error.latest) {
+        applyProgress(error.latest);
+        const latest = source.data.members.find(member => member.name === name); editRevision = latest.revision;
+        status.textContent = name + ' is now on page ' + latest.page + '. Someone updated this reader while you were editing. Your entry is still here; check it and save again.';
+      } else status.textContent = 'Your change hasn’t been confirmed. ' + error.message;
+    } finally {
+      saving = false; save.textContent = 'Save progress';
+      $('close-progress').disabled = false;
+      for (const control of form.elements) control.disabled = false;
+    }
+  });
+}
 
 function setupInstructions() {
   $('open-instructions').addEventListener('click', () => $('instructions').showModal());

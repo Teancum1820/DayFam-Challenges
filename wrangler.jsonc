@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "dayfam-challenges-api",
+  "account_id": "00557c31aa7179ae04ffb2b9bbe7d6bb",
+  "main": "api/index.ts",
+  "compatibility_date": "2026-10-09",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": { "enabled": true },
+  "vars": {
+    "ALLOWED_ORIGINS": "https://teancum1820.github.io,http://127.0.0.1:4173,http://localhost:4173"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dayfam-challenges-progress",
+      "database_id": "66c5ce42-1a86-48b6-bea9-dc8f550cc1e0",
+      "migrations_dir": "api/migrations"
+    }
+  ]
+}

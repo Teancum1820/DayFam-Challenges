@@ -4,7 +4,7 @@ import json
 
 ROOT = Path(__file__).resolve().parents[1] / "dist"
 MEMBERS = [member["name"] for member in json.loads((ROOT / "progress.json").read_text(encoding="utf-8"))["members"]]
-VERSION = "20261008-readers"
+VERSION = "20261009-editing"
 FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232c8d78'/%3E%3Cpath d='M8 11q6-3 12 1 6-4 12-1v19q-6-3-12 0-6-3-12 0z' fill='%23fff'/%3E%3C/svg%3E"
 
 def instructions(base):
@@ -15,6 +15,19 @@ def instructions(base):
       <section class="marking-card gospel-card"><span class="color-swatch" aria-hidden="true"></span><div><span class="color-key">COLOR 2 · BLUE</span><h3>The gospel of Jesus Christ</h3><p>Mark what God asks us to do to follow Him.</p><div class="marking-examples"><span>Faith</span><span>Repentance</span><span>Baptism</span><span>Receiving the Holy Ghost</span><span>Enduring to the end</span><span>Prayer</span><span>Church</span><span>Keeping commandments</span><span>Serving others</span></div></div></section>
       <div class="marking-example"><h3>When both appear together</h3><p>In a phrase like <strong>“have faith in Jesus Christ,”</strong> mark <mark class="gospel-mark">have faith</mark> in your gospel color and <mark class="deity-mark">Jesus Christ</mark> in your Deity color.</p></div>
       <p class="instructions-note">Read to the daily page goal, then use the leaderboard and your journey map to follow your progress.</p><button id="done-instructions" class="button primary full">Got it</button>
+    </dialog>'''
+
+def progress_editor():
+    return '''<dialog id="progress-editor" class="progress-editor" aria-labelledby="progress-title">
+      <div class="dialog-head"><h2 id="progress-title">Update reading progress</h2><button id="close-progress" class="close-button" type="button" aria-label="Close progress editor"><span data-icon="x"></span></button></div>
+      <p class="progress-intro">Save your latest page for everyone to see.</p>
+      <form id="progress-form">
+        <label for="progress-reader">Reader</label><select id="progress-reader" name="reader" required></select>
+        <label for="progress-page">Last page fully read</label><input id="progress-page" name="page" type="number" inputmode="numeric" min="0" max="531" step="1" required aria-describedby="progress-help">
+        <small id="progress-help">Enter 0–531. Use 0 if you haven’t started yet.</small>
+        <p id="progress-status" class="progress-status" role="status" aria-live="polite"></p>
+        <div class="progress-actions"><button id="cancel-progress" class="button" type="button">Cancel</button><button id="save-progress" class="button primary" type="submit">Save progress</button></div>
+      </form>
     </dialog>'''
 
 def shell(view, member=None):
@@ -39,8 +52,8 @@ def shell(view, member=None):
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#2c8d78"><meta name="description" content="Book of Mormon Christmas Challenge: family reading progress, daily page goals, and illustrated chapter journey maps."><title>{title} · Book of Mormon Christmas Challenge</title><link rel="icon" href="{FAVICON}" type="image/svg+xml"><link rel="stylesheet" href="{base}styles.css?v={VERSION}"><script type="module" src="{base}{'journey' if member else 'app'}.mjs?v={VERSION}"></script></head>
 <body data-base="{base}" data-view="{view}"{f' data-member="{member}"' if member else ""}>
 <a class="skip-link" href="#content">Skip to {'reading map' if member else 'leaderboard'}</a>
-<header class="challenge-header"><div><a href="{base}" class="challenge-home"><h1>Book of Mormon<br class="title-break"> Christmas Challenge</h1></a><p id="challenge-dates">Oct 6 – Dec 25, 2026</p></div><button id="open-instructions" class="instructions-button"><span class="instructions-symbol" aria-hidden="true">?</span><span>Instructions</span></button></header>
-<main class="container{' journey-container' if member else ''}"><div id="error-banner" class="notice error" role="alert" hidden></div>{content}</main>{instructions(base)}<noscript><p class="notice">Please enable JavaScript to see the leaderboard and reading maps.</p></noscript>
+<header class="challenge-header"><div><a href="{base}" class="challenge-home"><h1>Book of Mormon<br class="title-break"> Christmas Challenge</h1></a><p id="challenge-dates">Oct 6 – Dec 25, 2026</p></div><div class="header-actions"><button id="open-progress" class="button primary update-progress-button" disabled>Update progress</button><button id="open-instructions" class="instructions-button"><span class="instructions-symbol" aria-hidden="true">?</span><span>Instructions</span></button></div></header>
+<main class="container{' journey-container' if member else ''}"><div id="error-banner" class="notice error" role="alert" hidden></div>{content}<p id="save-notice" class="save-notice" role="status" aria-live="polite" hidden></p></main>{instructions(base)}{progress_editor()}<noscript><p class="notice">Please enable JavaScript to see the leaderboard and reading maps.</p></noscript>
 </body></html>
 '''
 

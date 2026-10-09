@@ -96,6 +96,7 @@ test('all pages share the simplified header and two-color instructions', async (
     assert.ok(html.includes('Book of Mormon<br class="title-break"> Christmas Challenge'));
     assert.ok(html.includes('id="instructions"') && html.includes('<h3>Deity</h3>') && html.includes('The gospel of Jesus Christ'));
     assert.ok(html.includes('COLOR 1 · RED') && !html.includes('COLOR 1 · GOLD'));
+    assert.ok(html.includes('id="progress-editor"') && html.includes('id="open-progress"'));
     for (const removed of ['edit-progress','READ A LITTLE','The family reading race','Every page counts','DayFam Challenges home']) assert.ok(!html.includes(removed));
   }
 });
