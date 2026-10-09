@@ -11,7 +11,7 @@ A static Book of Mormon reading challenge for Caleb, Katelyn, Elizabeth, Benjami
 
 The header is **Book of Mormon Christmas Challenge**. Its **Instructions** popup explains a two-color marking system: red for Deity and blue for gospel actions, with examples and a phrase showing both colors. Readers can choose their own two colors.
 
-Caleb is on page 30 with green accents, and Katelyn is on page 7 with orange accents. Both have profile photos. Benjamin is on page 21, Lydia on page 20, and Elizabeth on page 16. Aaron and Mom are at page 0 until their progress is supplied. Initial avatars can be replaced with family photos.
+Caleb is on page 30 with green accents, and Katelyn is on page 7 with orange accents. Both have profile photos. Benjamin is on page 21, Lydia on page 20, and Elizabeth on page 16. Aaron is at 1 Nephi 3 (page 5); Mom is at page 0 until her progress is supplied. Initial avatars can be replaced with family photos.
 
 ## The Christmas reading plan
 
