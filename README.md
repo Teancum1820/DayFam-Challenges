@@ -1,6 +1,6 @@
 # DayFam Challenges
 
-A static Book of Mormon reading challenge for Caleb, Katelyn, Elizabeth, Benjamin, Aaron, and Lydia.
+A static Book of Mormon reading challenge for Caleb, Katelyn, Elizabeth, Benjamin, Aaron, Lydia, and Mom.
 
 **Live site:** https://Teancum1820.github.io/DayFam-Challenges/
 
@@ -11,7 +11,7 @@ A static Book of Mormon reading challenge for Caleb, Katelyn, Elizabeth, Benjami
 
 The header is **Book of Mormon Christmas Challenge**. Its **Instructions** popup explains a two-color marking system: red for Deity and blue for gospel actions, with examples and a phrase showing both colors. Readers can choose their own two colors.
 
-Caleb is on page 30 with green accents, and Katelyn is on page 7 with orange accents. Both have profile photos. The other four readers remain at 0 until their progress is supplied. Initial avatars can be replaced with family photos.
+Caleb is on page 30 with green accents, and Katelyn is on page 7 with orange accents. Both have profile photos. Benjamin is on page 21, Lydia on page 20, and Elizabeth on page 16. Aaron and Mom are at page 0 until their progress is supplied. Initial avatars can be replaced with family photos.
 
 ## The Christmas reading plan
 
@@ -57,7 +57,7 @@ Run checks with Node.js 20 or newer:
 node --test tests/core.test.mjs
 ```
 
-The eight HTML pages are checked in. After editing their shared template, regenerate them with:
+The nine HTML pages are checked in. After editing their shared template, regenerate them with:
 
 ```powershell
 python scripts/generate-pages.py

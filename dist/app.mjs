@@ -1,10 +1,11 @@
-import { ranked, chapterProgress } from './core.mjs?v=20261008-profiles';
-import { regionAt, storyAsset } from './story.mjs?v=20261008-profiles';
-import { BASE, $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs?v=20261008-profiles';
+import { ranked, chapterProgress } from './core.mjs?v=20261008-readers';
+import { regionAt, storyAsset } from './story.mjs?v=20261008-readers';
+import { BASE, $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs?v=20261008-readers';
 
 boot((data, guide) => {
   const plan = renderStats(data), members = ranked(data.members);
   const isMaps = document.body.dataset.view === 'maps';
+  text('reader-total', `${members.length} readers`);
   const root = $('family-list'); root.replaceChildren();
   members.forEach((member, index) => {
     const percent = member.page / data.challenge.totalPages * 100;

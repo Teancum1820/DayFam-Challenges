@@ -1,9 +1,10 @@
-"""Generate the eight static HTML pages. Hosting needs no build step."""
+"""Generate the static HTML pages. Hosting needs no build step."""
 from pathlib import Path
+import json
 
 ROOT = Path(__file__).resolve().parents[1] / "dist"
-MEMBERS = ["Caleb", "Katelyn", "Elizabeth", "Benjamin", "Aaron", "Lydia"]
-VERSION = "20261008-profiles"
+MEMBERS = [member["name"] for member in json.loads((ROOT / "progress.json").read_text(encoding="utf-8"))["members"]]
+VERSION = "20261008-readers"
 FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232c8d78'/%3E%3Cpath d='M8 11q6-3 12 1 6-4 12-1v19q-6-3-12 0-6-3-12 0z' fill='%23fff'/%3E%3C/svg%3E"
 
 def instructions(base):
@@ -31,7 +32,7 @@ def shell(view, member=None):
         <button id="floating-current" class="button current-button" hidden><span data-icon="locate-fixed"></span>My place</button>
         <dialog id="chapter-detail" aria-labelledby="chapter-title"><div class="dialog-head"><div><span class="eyebrow" id="chapter-book"></span><h2 id="chapter-title"></h2></div><button id="close-chapter" class="close-button" aria-label="Close chapter details"><span data-icon="x"></span></button></div><p id="chapter-pages"></p><div id="chapter-story"></div><p id="chapter-status"></p><a id="chapter-read" class="button primary" target="_blank" rel="noopener noreferrer">Read this chapter</a></dialog>'''
     else:
-        board = '''<section id="content" class="leaderboard panel" aria-labelledby="board-title" aria-busy="true"><div class="board-heading"><h2 id="board-title">The leaderboard</h2><span class="reader-total">6 readers</span></div><div class="table-head" aria-hidden="true"><span>RANK</span><span>READER</span><span>READING PROGRESS</span><span>PAGE</span><span></span></div><ol id="family-list" class="family-list"><li class="loading">Loading progress…</li></ol><div class="board-foot"><span id="updated-label"></span></div></section>''' if view == "leaderboard" else '''<section id="content" aria-label="Family journey maps" aria-busy="true"><div id="family-list" class="map-grid"><p class="loading">Loading the maps…</p></div><div class="maps-foot"><span id="updated-label"></span></div></section>'''
+        board = f'''<section id="content" class="leaderboard panel" aria-labelledby="board-title" aria-busy="true"><div class="board-heading"><h2 id="board-title">The leaderboard</h2><span class="reader-total" id="reader-total">{len(MEMBERS)} readers</span></div><div class="table-head" aria-hidden="true"><span>RANK</span><span>READER</span><span>READING PROGRESS</span><span>PAGE</span><span></span></div><ol id="family-list" class="family-list"><li class="loading">Loading progress…</li></ol><div class="board-foot"><span id="updated-label"></span></div></section>''' if view == "leaderboard" else '''<section id="content" aria-label="Family journey maps" aria-busy="true"><div id="family-list" class="map-grid"><p class="loading">Loading the maps…</p></div><div class="maps-foot"><span id="updated-label"></span></div></section>'''
         content = f"{stats}{tabs}{board}"
     return f'''<!doctype html>
 <html lang="en">
@@ -50,4 +51,4 @@ for member in MEMBERS:
     path = ROOT / "journeys" / member.lower()
     path.mkdir(parents=True, exist_ok=True)
     (path / "index.html").write_text(shell("journey", member), encoding="utf-8")
-print("Generated leaderboard, maps directory, and six journey pages.")
+print(f"Generated leaderboard, maps directory, and {len(MEMBERS)} journey pages.")

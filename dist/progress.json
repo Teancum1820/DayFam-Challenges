@@ -6,7 +6,7 @@
     "totalPages": 531,
     "timeZone": "America/Denver"
   },
-  "updatedAt": "2026-10-08T18:21:07.730866Z",
+  "updatedAt": "2026-10-09T03:09:33.670643Z",
   "members": [
     {
       "name": "Caleb",
@@ -20,12 +20,12 @@
     },
     {
       "name": "Elizabeth",
-      "page": 0,
+      "page": 16,
       "avatar": null
     },
     {
       "name": "Benjamin",
-      "page": 0,
+      "page": 21,
       "avatar": null
     },
     {
@@ -35,6 +35,11 @@
     },
     {
       "name": "Lydia",
+      "page": 20,
+      "avatar": null
+    },
+    {
+      "name": "Mom",
       "page": 0,
       "avatar": null
     }

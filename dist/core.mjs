@@ -32,11 +32,11 @@ export function pace({ startDate, endDate, totalPages }, today) {
 }
 
 export function validateData(data) {
-  if (!data?.challenge || !Array.isArray(data.members) || data.members.length !== 6) throw new Error('The shared progress file needs the challenge and all six readers.');
+  const expected = ['Caleb', 'Katelyn', 'Elizabeth', 'Benjamin', 'Aaron', 'Lydia', 'Mom'];
+  if (!data?.challenge || !Array.isArray(data.members) || data.members.length !== expected.length) throw new Error('The shared progress file needs the challenge and all seven readers.');
   pace(data.challenge, data.challenge.startDate);
   dateInZone(data.challenge.timeZone);
-  const expected = ['Caleb', 'Katelyn', 'Elizabeth', 'Benjamin', 'Aaron', 'Lydia'];
-  if (new Set(data.members.map(m => m.name)).size !== 6) throw new Error('Each reader must appear once.');
+  if (new Set(data.members.map(m => m.name)).size !== expected.length) throw new Error('Each reader must appear once.');
   for (const member of data.members) {
     if (!expected.includes(member.name) || !Number.isInteger(member.page) || member.page < 0 || member.page > data.challenge.totalPages) throw new Error('Each reader needs a valid completed page number.');
     if (member.avatar != null && (typeof member.avatar !== 'string' || /^(?!https:\/\/)[a-z][a-z\d+.-]*:/i.test(member.avatar) || member.avatar.startsWith('//'))) throw new Error('Photos must use a relative file path or an HTTPS URL.');

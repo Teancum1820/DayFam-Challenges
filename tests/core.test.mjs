@@ -30,7 +30,9 @@ test('bad dates, backwards plans, fractions and zero counts are rejected', () =>
 });
 test('shared data is valid and rejects unsafe data', async () => {
   const data = JSON.parse(await readFile(new URL('../dist/progress.json', import.meta.url)));
-  assert.equal(validateData(data).members.length, 6);
+  assert.equal(validateData(data).members.length, 7);
+  assert.ok(data.members.some(member => member.name === 'Mom'));
+  const missingReader = structuredClone(data); missingReader.members.pop(); assert.throws(() => validateData(missingReader));
   for (const page of [-1, data.challenge.totalPages + 1, 0.5]) { const bad = structuredClone(data); bad.members[0].page = page; assert.throws(() => validateData(bad)); }
   const badPhoto = structuredClone(data); badPhoto.members[0].avatar = 'javascript:alert(1)'; assert.throws(() => validateData(badPhoto));
   const duplicates = structuredClone(data); duplicates.members[1].name = 'Caleb'; assert.throws(() => validateData(duplicates));
@@ -87,8 +89,9 @@ test('every chapter has exactly one illustrated setting and every landmark asset
   assert.equal(regionAt('3-ne', 11).world, 'temple');
 });
 
-test('all eight pages share the simplified header and two-color instructions', async () => {
-  for (const route of ['', 'maps/', ...['caleb','katelyn','elizabeth','benjamin','aaron','lydia'].map(n => 'journeys/' + n + '/')]) {
+test('all pages share the simplified header and two-color instructions', async () => {
+  const data = JSON.parse(await readFile(new URL('../dist/progress.json', import.meta.url)));
+  for (const route of ['', 'maps/', ...data.members.map(member => 'journeys/' + member.name.toLowerCase() + '/')]) {
     const html = await readFile(new URL(`../dist/${route}index.html`, import.meta.url), 'utf8');
     assert.ok(html.includes('Book of Mormon<br class="title-break"> Christmas Challenge'));
     assert.ok(html.includes('id="instructions"') && html.includes('<h3>Deity</h3>') && html.includes('The gospel of Jesus Christ'));
