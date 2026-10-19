@@ -32,8 +32,8 @@ export function pace({ startDate, endDate, totalPages }, today) {
 }
 
 export function validateData(data) {
-  const expected = ['Caleb', 'Katelyn', 'Elizabeth', 'Benjamin', 'Aaron', 'Lydia', 'Mom'];
-  if (!data?.challenge || !Array.isArray(data.members) || data.members.length !== expected.length) throw new Error('The shared progress file needs the challenge and all seven readers.');
+  const expected = ['Caleb', 'Katelyn', 'Elizabeth', 'Benjamin', 'Aaron', 'Lydia', 'Mom', 'Daniel'];
+  if (!data?.challenge || !Array.isArray(data.members) || data.members.length !== expected.length) throw new Error('The shared progress file needs the challenge and all eight readers.');
   pace(data.challenge, data.challenge.startDate);
   dateInZone(data.challenge.timeZone);
   if (new Set(data.members.map(m => m.name)).size !== expected.length) throw new Error('Each reader must appear once.');

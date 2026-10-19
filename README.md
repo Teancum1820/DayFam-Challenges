@@ -1,6 +1,6 @@
 # DayFam Challenges
 
-A Book of Mormon reading challenge for Caleb, Katelyn, Elizabeth, Benjamin, Aaron, Lydia, and Mom. GitHub Pages serves the interface; a Cloudflare Worker and D1 database store shared progress.
+A Book of Mormon reading challenge for Caleb, Katelyn, Elizabeth, Benjamin, Aaron, Lydia, Mom, and Daniel. GitHub Pages serves the interface; a Cloudflare Worker and D1 database store shared progress.
 
 **Live site:** https://Teancum1820.github.io/DayFam-Challenges/
 
@@ -63,7 +63,7 @@ npm run check:api
 
 To develop against a local database, run `npx wrangler d1 migrations apply dayfam-challenges-progress --local` and `npm run dev:api`. Temporarily point `PROGRESS_API` in `dist/config.mjs` at `http://127.0.0.1:8787/progress`; restore the deployed HTTPS endpoint before publishing. Local database changes do not affect the family’s live progress.
 
-The nine HTML pages are checked in. After editing their shared template, regenerate them with:
+The ten HTML pages are checked in. After editing their shared template, regenerate them with:
 
 ```powershell
 python scripts/generate-pages.py

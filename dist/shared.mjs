@@ -1,12 +1,12 @@
-import { pace, dateInZone, validateData, chapterProgress, validateChapters } from './core.mjs?v=20261009-editing';
-import { PROGRESS_API } from './config.mjs?v=20261009-editing';
+import { pace, dateInZone, validateData, chapterProgress, validateChapters } from './core.mjs?v=20261019-daniel';
+import { PROGRESS_API } from './config.mjs?v=20261019-daniel';
 
 export const BASE = document.body.dataset.base || './';
 export const COLORS = {
   Caleb: ['#37813a', '#e8f5df', '#25642b'], Katelyn: ['#bc5b14', '#fff0df', '#92450e'],
   Elizabeth: ['#ce5d95', '#fce7f2', '#a54074'], Benjamin: ['#269782', '#e1f5ee', '#197562'],
   Aaron: ['#bc9029', '#fff5d7', '#926c18'], Lydia: ['#4c87c4', '#e5f0ff', '#3269a2'],
-  Mom: ['#8b57ad', '#f2e8fb', '#6d3e90']
+  Mom: ['#8b57ad', '#f2e8fb', '#6d3e90'], Daniel: ['#b34e43', '#fce9e5', '#87392f']
 };
 export const $ = id => document.getElementById(id);
 export const text = (id, value) => { if ($(id)) $(id).textContent = value; };

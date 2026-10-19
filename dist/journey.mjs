@@ -1,7 +1,7 @@
-import { chapterProgress, STANDARD_PAGES } from './core.mjs?v=20261009-editing';
-import { BASE, $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs?v=20261009-editing';
-import { REGIONS, WORLDS, LANDMARKS, storyAsset } from './story.mjs?v=20261009-editing';
-import { chapterConnections } from './path.mjs?v=20261009-editing';
+import { chapterProgress, STANDARD_PAGES } from './core.mjs?v=20261019-daniel';
+import { BASE, $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs?v=20261019-daniel';
+import { REGIONS, WORLDS, LANDMARKS, storyAsset } from './story.mjs?v=20261019-daniel';
+import { chapterConnections } from './path.mjs?v=20261019-daniel';
 
 const pattern = [0, 9, 13, 8, 0, -9, -13, -8];
 let selected, currentChapterId, sceneryObserver, layoutObserver, layoutFrame;

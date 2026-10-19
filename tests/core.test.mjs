@@ -30,7 +30,7 @@ test('bad dates, backwards plans, fractions and zero counts are rejected', () =>
 });
 test('shared data is valid and rejects unsafe data', async () => {
   const data = JSON.parse(await readFile(new URL('../dist/progress.json', import.meta.url)));
-  assert.equal(validateData(data).members.length, 7);
+  assert.equal(validateData(data).members.length, 8);
   assert.ok(data.members.some(member => member.name === 'Mom'));
   const missingReader = structuredClone(data); missingReader.members.pop(); assert.throws(() => validateData(missingReader));
   for (const page of [-1, data.challenge.totalPages + 1, 0.5]) { const bad = structuredClone(data); bad.members[0].page = page; assert.throws(() => validateData(bad)); }

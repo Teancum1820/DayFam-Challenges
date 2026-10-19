@@ -1,13 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import worker from '../api/index.ts';
 
 const origin = 'https://teancum1820.github.io';
 function environment(t) {
   const db = new DatabaseSync(':memory:');
-  db.exec(readFileSync(new URL('../api/migrations/0001_readers.sql', import.meta.url), 'utf8'));
+  const migrations = new URL('../api/migrations/', import.meta.url);
+  for (const file of readdirSync(migrations).filter(file => file.endsWith('.sql')).sort()) {
+    db.exec(readFileSync(new URL(file, migrations), 'utf8'));
+  }
   t.after(() => db.close());
   const wrap = (sql, args = []) => ({
     bind: (...values) => wrap(sql, values),
@@ -26,7 +29,8 @@ function request(env, body, options = {}) {
 
 test('public reads include all readers and successful edits persist across new requests', async t => {
   const env=environment(t), initial=await (await request(env)).json();
-  assert.equal(initial.members.length, 7);
+  assert.equal(initial.members.length, 8);
+  assert.equal(initial.members.find(member=>member.name==='Daniel').page,0);
   const revision=initial.members.find(member=>member.name==='Mom').revision;
   const saved=await request(env,{name:'Mom',page:42,revision});
   assert.equal(saved.status,200); assert.equal(saved.headers.get('Access-Control-Allow-Origin'),origin);
@@ -34,6 +38,10 @@ test('public reads include all readers and successful edits persist across new r
   assert.equal(latest.members.find(member=>member.name==='Mom').page,42);
   assert.equal(latest.members.find(member=>member.name==='Mom').revision,revision+1);
   assert.equal(latest.members.find(member=>member.name==='Caleb').page,30);
+  assert.equal((await request(env,{name:'Daniel',page:12,revision:0})).status,200);
+  const withDaniel=await (await request(env)).json();
+  assert.equal(withDaniel.members.find(member=>member.name==='Daniel').page,12);
+  assert.equal(withDaniel.members.find(member=>member.name==='Mom').page,42);
 });
 test('concurrent readers both save; stale edits to the same reader return the latest progress', async t => {
   const env=environment(t);
