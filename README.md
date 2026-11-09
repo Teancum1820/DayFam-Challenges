@@ -29,6 +29,14 @@ Editing is public and requires no sign-in. Anyone can update any reader, as requ
 
 **Live page numbers now come from D1, not the checked-in JSON.** [dist/progress.json](dist/progress.json) is the initial seed, reader metadata, and an offline fallback snapshot. Editing its page numbers or redeploying the frontend does not overwrite live progress. If the API is unavailable, the site shows this snapshot with a notice and disables editing until the connection recovers. No passwords, GitHub tokens, or database credentials are stored in the frontend.
 
+## Scripture Thought Chat Room
+
+Open **Thought Room** from any Christmas Challenge page. Choose a display name, enter a scripture reference such as `1 Nephi 3:7` or `Luke 2:10–11`, and share a written reflection. The room remembers the name in that browser. **Share a thought** in a journey map’s chapter dialog fills in that chapter. Recognized Book of Mormon references link to the official text.
+
+The feed shows the newest reflections first, refreshes about every 15 seconds while the page is visible, and can load older posts. Anyone who visits can read and post without signing in; display names are self-chosen. A Cloudflare rate limit slows repeated posting from the same connection. An administrator can remove an unwanted post by its ID from the `scripture_thoughts` table in the D1 console.
+
+The room stores posts in D1 through the Worker’s `/thoughts` endpoint. The additive migration `api/migrations/0003_scripture_thoughts.sql` creates the table independently of reading progress. For a first deployment, apply the remote migration and deploy the Worker **before** publishing the GitHub Pages change. The local room at `http://127.0.0.1:4173/thoughts/` automatically uses the local Worker at port 8787.
+
 ## Add family photos
 
 Save square photos in `dist/assets/` and set each member’s `avatar` in `dist/progress.json`, for example `"avatar": "assets/caleb.webp"`. Redeploy the API to update its reader metadata, then publish the frontend assets. Initial avatars remain the fallback if an image cannot load. This is a public repository and public website, so added photos are public too.
@@ -63,7 +71,7 @@ npm run check:api
 
 To develop against a local database, run `npx wrangler d1 migrations apply dayfam-challenges-progress --local` and `npm run dev:api`. Temporarily point `PROGRESS_API` in `dist/config.mjs` at `http://127.0.0.1:8787/progress`; restore the deployed HTTPS endpoint before publishing. Local database changes do not affect the family’s live progress.
 
-The ten HTML pages are checked in. After editing their shared template, regenerate them with:
+The eleven HTML pages are checked in. After editing their shared template, regenerate them with:
 
 ```powershell
 python scripts/generate-pages.py
@@ -82,7 +90,7 @@ npx wrangler d1 migrations apply dayfam-challenges-progress --remote
 npm run deploy:api
 ```
 
-The initial migration uses `INSERT OR IGNORE`; rerunning migrations does not reset existing readers. API redeploys preserve D1 data. The browser endpoint is public configuration in `dist/config.mjs`. GitHub Actions tests the reading calculations, API validation, actual SQLite persistence, and simultaneous writes before publishing the frontend. Backend deployment is separate and uses the locally authenticated Cloudflare account.
+The initial migration uses `INSERT OR IGNORE`; rerunning migrations does not reset existing readers. API redeploys preserve D1 data. The browser endpoint is public configuration in `dist/config.mjs`. GitHub Actions tests the reading calculations, API validation, SQLite persistence, simultaneous progress edits, and shared thought posting before publishing the frontend. Backend deployment is separate and uses the locally authenticated Cloudflare account.
 
 For a future Cloudflare frontend migration, deploy `dist` and add the new website origin to `ALLOWED_ORIGINS` in the Worker configuration. The frontend continues to use the same shared API. The interface has no framework dependency.
 

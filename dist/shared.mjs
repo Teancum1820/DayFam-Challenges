@@ -1,5 +1,5 @@
-import { pace, dateInZone, validateData, chapterProgress, validateChapters } from './core.mjs?v=20261019-daniel';
-import { PROGRESS_API } from './config.mjs?v=20261019-daniel';
+import { pace, dateInZone, validateData, chapterProgress, validateChapters } from './core.mjs?v=20261108-study-room';
+import { PROGRESS_API } from './config.mjs?v=20261108-study-room';
 
 export const BASE = document.body.dataset.base || './';
 export const COLORS = {

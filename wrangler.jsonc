@@ -10,6 +10,9 @@
   "vars": {
     "ALLOWED_ORIGINS": "https://teancum1820.github.io,http://127.0.0.1:4173,http://localhost:4173"
   },
+  "ratelimits": [
+    { "name": "THOUGHT_POST_LIMIT", "namespace_id": "9112026", "simple": { "limit": 6, "period": 60 } }
+  ],
   "d1_databases": [
     {
       "binding": "DB",

@@ -1,7 +1,7 @@
-import { chapterProgress, STANDARD_PAGES } from './core.mjs?v=20261019-daniel';
-import { BASE, $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs?v=20261019-daniel';
-import { REGIONS, WORLDS, LANDMARKS, storyAsset } from './story.mjs?v=20261019-daniel';
-import { chapterConnections } from './path.mjs?v=20261019-daniel';
+import { chapterProgress, STANDARD_PAGES } from './core.mjs?v=20261108-study-room';
+import { BASE, $, text, icon, avatar, personStyle, locationLabel, renderStats, boot } from './shared.mjs?v=20261108-study-room';
+import { REGIONS, WORLDS, LANDMARKS, storyAsset } from './story.mjs?v=20261108-study-room';
+import { chapterConnections } from './path.mjs?v=20261108-study-room';
 
 const pattern = [0, 9, 13, 8, 0, -9, -13, -8];
 let selected, currentChapterId, sceneryObserver, layoutObserver, layoutFrame;
@@ -30,6 +30,7 @@ function showChapter(chapter) {
     copy.append(title, description); story.append(image(landmark.asset, 'detail-art', true), copy);
   }
   $('chapter-read').href = 'https://www.churchofjesuschrist.org/study/scriptures/bofm/' + chapter.slug + '/' + chapter.number + '?lang=eng';
+  $('chapter-share').href = BASE + 'thoughts/?' + new URLSearchParams({ passage: chapter.book + ' ' + chapter.number }) + '#display-name';
   $('chapter-detail').showModal();
 }
 function observeScenery() {
